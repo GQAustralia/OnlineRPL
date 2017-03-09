@@ -223,6 +223,9 @@ var GQA_HEADER = {
 // custom thumbnails division
 var FILE_THUMBNAIL = {
 	doc: $(document),
+	computation_interval: function() {
+
+	},
 	compute: function(){
 
 		var p = $('[data-has-thumbnail="true"]'),

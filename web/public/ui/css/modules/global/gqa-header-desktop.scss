@@ -53,6 +53,11 @@
 
 			* { display: block; }
 
+			.btn-link {
+				
+				font-weight: 400; color: $brand-primary;
+			}
+
 			label { margin-top: 5px; margin-bottom: 0; }
 			.label {
 				letter-spacing: 1px;

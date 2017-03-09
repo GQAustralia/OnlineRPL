@@ -100,7 +100,7 @@
                         {% if ('ROLE_APPLICANT' in roles)  %}
                         <li class="dropdown">
                             <a href='#' class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="t-item-1"><i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> Qualifications</span>
+                                <span class="t-item-1"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span>
                                 <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                             </a>
                             <ul class="dropdown-menu pull-right">
@@ -171,7 +171,7 @@
                                           
                                             <!-- If nothing to display -->
                                     {% endif %}
-                                        <li><button type="button" class="btn btn-link text-uppercase btn-block"><a href="{{ baseUrl }}/messages">Go to Inbox</a></button></li>
+                                        <li><a class="btn btn-link text-uppercase btn-block" href="{{ baseUrl }}/messages"><strong>Go to Inbox</strong></a></li>
                                     </ul>
                                 </li>
                             {% endif %}
@@ -213,7 +213,8 @@
                 <div class="avatar-menu">
                     <div class="dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="avatar avatar-xxs t-item-5"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}{{ baseUrl }}/public/ui/img/avatar-default.png{%endif%}" alt="You" onerror="this.src='{{ baseUrl }}/public/ui/img/avatar-default.png'"></div>
+                            <div class="avatar avatar-xxs t-item-5"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}{{ baseUrl }}/public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
+                            {# onerror="this.src='{{ baseUrl }}/public/ui/img/avatar-default.png'" #}
                             <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>

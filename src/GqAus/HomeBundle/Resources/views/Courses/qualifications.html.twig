@@ -54,21 +54,22 @@
             </div>
         </div>
 
-        <div class="container" ng-hide="IsLoaded">
-            <div class="panel panel-default">
-                <div class="panel-body" data-loader="true">
-                    <section class="loader loading">
-                        <i class="msk1"></i>
-                        <i class="msk2"></i>
-                        <i class="msk3"></i>
-                    </section>
-                </div>
-            </div>
-        </div>
+        <div class="container container-right-sidebar-main container-qual-page" ng-class="{'container-qual-page': initQualPage == true }" ng-show="qualificationPage == 'qualification'" ng-init="applicantId='{{userId}}';role='{{loggedInUserRole}}'; initQualpage = true">
 
-        <div class="container container-right-sidebar-main" ng-show="qualificationPage == 'qualification'" ng-init="applicantId='{{userId}}';role='{{loggedInUserRole}}'">
+
             <section class="section-sidebar section-sidebar-compressed">
                 <div class="panel panel-default">
+
+                    {# Preloading #}
+                    <div class="panel-body" data-loader="heading" ng-if="!IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+                    {# Preloading #}
+
                     <div class="panel-body">
                         <h4>Qualification Status</h4>
                         <span class="label {{ courseStatus[courseDetails.courseStatus]['labelClass'] }}">{{ courseStatus[courseDetails.courseStatus]['ApplicantDisplayText'] }}</span>
@@ -104,6 +105,15 @@
                 </div>
                 {% if(courseDetails.facilitator|length > 0 or courseDetails.assessor|length > 0 or courseDetails.rto|length > 0) %}
                 <div class="panel panel-default">
+                    {# Preloading #}
+                    <div class="panel-body" data-loader="heading" ng-if="!IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+                    {# Preloading #}
                     <div class="panel-body">
                         <h4 data-toggle="toggle" data-target=".list-group-contacts">Qualification Contacts 
                             <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw pull-right visible-mobile"></i>
@@ -168,6 +178,16 @@
             </section>
             <section class="section-main">
                 <div class="panel panel-default">
+                    {# Preloading #}
+                    <div class="panel-body" data-loader="content" ng-if="!IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+                    {# Preloading #}
+
                     <div class="panel-body">
                         <h4 data-toggle="toggle" data-target=".qual-description">Qualification Description 
                             <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-fw pull-right visible-mobile"></i>
@@ -178,6 +198,15 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
+                    {# Preloading #}
+                    <div class="panel-body" data-loader="content" ng-if="!IsLoaded">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+                    {# Preloading #}
                     <div class="panel-body">
                         <h4>Qualification Structure and Complete List of Requirements</h4>
                         <div class="package-rules content-from-api table-from-api table-striped">{{ packagerulesInfo|raw }}</div>
@@ -231,36 +260,37 @@
   
     </main>
 
-<div class="modal fade modal-contact" id="contactProfile">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                <h4 class="modal-title">Malou Wang</h4>
-            </div> -->
-             
-            <div class="modal-body clearfix">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                <div class="avatar avatar-sm">
-                    <img class="profile-img" src="#">
-                </div>
-                <div class="avatar-name">
-                    <label class="h3"><span class="profile-name">Malou Wang</span></label>
-                    <p class="profile-type">Account Manager</p>
-                    <div class="avatar-info">
-                        <ul class="list-unstyled">
-                            <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
-                            <li><i class="zmdi zmdi-smartphone-iphone"></i> <a href="tel:"><span class="profile-phone"></span></a></li>
-                        </ul>
+    <div class="modal fade modal-contact" id="contactProfile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <h4 class="modal-title">Malou Wang</h4>
+                </div> -->
+                 
+                <div class="modal-body clearfix">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
+                    <div class="avatar avatar-sm">
+                        <img class="profile-img" src="#">
                     </div>
+                    <div class="avatar-name">
+                        <label class="h3"><span class="profile-name">Malou Wang</span></label>
+                        <p class="profile-type">Account Manager</p>
+                        <div class="avatar-info">
+                            <ul class="list-unstyled">
+                                <li><i class="zmdi zmdi-email"></i> <span class="profile-email"></span></li>
+                                <li><i class="zmdi zmdi-smartphone-iphone"></i> <a href="tel:"><span class="profile-phone"></span></a></li>
+                            </ul>
+                        </div>
 
-                    <span class="profile-message"><a href="#" class="btn btn-success message-link">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                        <span class="profile-message"><a href="#" class="btn btn-success message-link">Send Message&nbsp;&nbsp;<i class="zmdi zmdi-mail-send"></i></a></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-  <!-- Elements and performance criteria -->
+
+    <!-- Elements and performance criteria -->
     <div class="modal fade" id="elementsPerformanceCriteria">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -279,7 +309,6 @@
         </div>
     </div>
     <!-- Elements and performance criteria -->
-
 
     <!-- File Preview -->
     <div class="modal fade modal-file-preview" tabindex="-1" role="dialog" id="filePreview">

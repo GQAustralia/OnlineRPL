@@ -4,8 +4,8 @@
 {% block title %}  My Profile {% endblock %}
 {% block ngtitle %}myProfile{% endblock%}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+{#     <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}"> #}
     <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
 {% endblock %}
 {% block body %}
@@ -23,40 +23,66 @@
                     </div>
                     <button ng-if="(allEvidences| filter:{type: '!text'}).length > 0" type="button" class="btn btn-primary btn-upload-evidence" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload <span class="hidden-mobile">Evidence</span></button>
                 </div>
+
                 <!-- Zero State -->
-                <div class="panel-body" ng-if="(allEvidences| filter:{type: '!text'}).length === 0">
-                    <div class="container" ng-hide="IsLoadedEvidences"> Loading.... </div>
+                {# (allEvidences| filter:{type: '!text'}).length === 0" #}
+                <div class="panel-body" ng-cloak ng-show="evidences.length === 0">
                     <section class="upload-control" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static">
                         <i class="zmdi zmdi-cloud-upload zmdi-hc-5x"></i>
-                        <h4>No evidence for this unit yet <br><button type="button" class="btn-link">Upload evidence now</button></h4>
+                        <h4>You have no uploaded evidence<br><button type="button" class="btn-link">Upload Evidence</button></h4>
                     </section>
                 </div>
                 <!-- Zero State -->
+
                 <!-- Has value state -->
-                <div class="panel-evidence-library-body" ng-if="(allEvidences| filter:{type: '!text'}).length > 0">
-                    <aside class="panel-evidence-library-menu">
+                <div class="panel-evidence-library-body">
+
+                    {# Preloader #}
+                    <aside class="panel-evidence-library-menu panel-body" data-loader="content" ng-if="!IsLoadedEvidences">
+                        <div class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </div>
+                    </aside>
+                    {# Preloader #}
+
+                    <aside class="panel-evidence-library-menu" ng-cloak ng-if="IsLoadedEvidences">
                         <!-- Filter evidences according to category -->
+
                         <div class="btn-group" data-toggle="buttons"> 
                             <label class="btn {[{class}]}" ng-click="filterCat('6')" for="category6"><input type="radio" id="category0" name="evidenceCategories">All Categories</label>
-                            <div class="container" ng-hide="IsLoaded"> Loading.... </div>
+                            
                             <label class="btn" ng-repeat="evidence in allEvidenceCats" ng-click="filterCat(evidence.id)" for="category{[{evidence.id}]}"><input type="radio" id="category{[{evidence.id}]}" name="{[{evidence.name}]}" >{[{evidence.name}]}</label>
                         </div>
+
                         <!-- Filter evidences according to category -->
                         <div class="indicator-storage">
                             <h5><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-storage"></i>50 <span class="text-uppercase">GB available</span></h5>
                         </div>
                     </aside>
-                    <section class="panel-evidence-library-content" ng-if="(allEvidences| filter:{type: '!text'}).length > 0" data-has-thumbnail="true">
+
+                    {# Preloader #}
+                    <section class="panel-evidence-library-content" data-loader="gallery" ng-if="!IsLoadedEvidences">
+                        <div class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </div>
+                    </section>
+                    {# Preloader #}
+
+                    <section class="panel-evidence-library-content" ng-cloak ng-if="(allEvidences| filter:{type: '!text'}).length > 0 && IsLoadedEvidences" data-has-thumbnail="true">
                         <div class="panel-evidence-search">
                             <div class="input-group-search"><input type="text" class="form-control" ng-model="search" placeholder="Search..."><i class="zmdi zmdi-search zmdi-hc-2x icon"></i></div>                    
                         </div>
                         <div class="evidence-controls btn-group-toolbar">
                             <div class="evidence-toggle-view">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
-                                    <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.evidenceView = 'card'">
+                                    <label class="btn btn-transparent" for="gridView" ng-click="pageStats.evidenceView = 'card'">
                                         <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
                                     </label>
-                                    <label class="btn btn-transparent" for="listView" ng-click="pageStats.evidenceView = 'list'">
+                                    <label class="btn btn-transparent active" for="listView" ng-click="pageStats.evidenceView = 'list'">
                                         <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
                                     </label>
                                 </div>
@@ -91,7 +117,7 @@
                                         <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here"></div>
                                         <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
                                             <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-                                                <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                            <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                         </div>
                                         <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
                                             <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
