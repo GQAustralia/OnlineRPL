@@ -143,15 +143,15 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     	
     	//New messages save/draft
     	if ($scope.showComposeMsg) {
-            if ($scope.newMsg.userName == '' || $scope.newMsg.userName.replace(/^\s+|\s+$/gm,'') != '') {
+            if ($scope.newMsg.userName == undefined || $scope.newMsg.userName.replace(/^\s+|\s+$/gm,'') != '') {
                 alert('Please enter Recipient');
             }
 
-            if ($scope.newMsg.message == '' || $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
+            if ($scope.newMsg.message == undefined || $scope.newMsg.message.replace(/^\s+|\s+$/gm,'') != '') {
                 alert('Please enter Message');
             }
 
-            if ($scope.newMsg.subject == '' || $scope.newMsg.subject.replace(/^\s+|\s+$/gm,'') != '') {
+            if ($scope.newMsg.subject == undefined || $scope.newMsg.subject.replace(/^\s+|\s+$/gm,'') != '') {
                 alert('Please enter Subject');
             }
 
