@@ -8,7 +8,7 @@
               </a>
             </div>
             <ul class="inbox-nav inbox-divider">
-                <li> <a href="#" ng-class="{'active': msgText == 'Inbox'}" ng-click="msgType = 'all';paginator.currentPage=1;msgText='Inbox';showComposeMsg=false;getMessages()"><i class="zmdi zmdi-inbox"></i> {[{msgText  }]} <span class="label label-danger pull-right" ng-hide="unreadCnt <= 0">{[{unreadCnt}]}</span></a>
+                <li> <a href="#" ng-class="{'active': msgText == 'Inbox'}" ng-click="msgType = 'all';paginator.currentPage=1;msgText='Inbox';showComposeMsg=false;getMessages()"><i class="zmdi zmdi-inbox"></i> Inbox <span class="label label-danger pull-right" ng-hide="unreadCnt <= 0">{[{unreadCnt}]}</span></a>
                     <ul>
                     
                         <li><a href="#" ng-class="{'active': msgText == msgSegregationText}" ng-repeat="msgSegregationText in messageSegregationArr[role]" ng-click="setMessageType(msgSegregationText);showComposeMsg=false;paginator.currentPage=1;getMessages()"><!--<i class="zmdi zmdi-email"></i>--> {[{msgSegregationText}]} </a></li>
@@ -142,10 +142,14 @@
                         <label for="recipient">Recipient</label>
                         <input type="text" id="recipient" name="recipient" class="form-control" ng-model="newMsg.userName" placeholder="To Whom are you sending this to ?" list="names">
                         <datalist id="names" >
+                            <select>
                             {% for username in to_users %}
                             {% set roleArr = username[0].getRoles()[0] | split('_') %}
+
                             <option  data-id="{{username[0].getId()}}" data-role="{{roleArr[1]}}" value="{{username[1]}}">{{roleArr[1]}}</option>
+
                             {% endfor %}
+                            </select>
                         </datalist>
                         <input type="hidden" id="recipient-hidden" ng-model="newMsg.to" list="names" value="">
                     </div>
