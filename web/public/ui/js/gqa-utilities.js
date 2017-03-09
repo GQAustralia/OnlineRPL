@@ -223,7 +223,7 @@ var GQA_HEADER = {
 // custom thumbnails division
 var FILE_THUMBNAIL = {
 	doc: $(document),
-	evidence_controls: '.evidence-controls [for]',
+	evidence_controls: '.evidence-controls [for], .panel-evidence-filters',
 	bind: function(){
 		this.doc.on('click', this.evidence_controls, function(){
 			FILE_THUMBNAIL.compute();
@@ -284,6 +284,8 @@ var FILE_THUMBNAIL = {
 			thumbnail.css('width', tw);
 			header.css('height', thumbnail.width());
 		}
+
+		console.log('hello')
 	},
 	computation_interval: function(){
 		thumbnail_interval = setInterval(function(){
@@ -296,7 +298,7 @@ var FILE_THUMBNAIL = {
 				}
 			}, 1000)
 			
-		}, 100)
+		}, 20)
 	},
 	resize: function() {
 		var t;

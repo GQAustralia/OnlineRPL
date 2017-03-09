@@ -87,11 +87,11 @@
                                             <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" ng-click="showEvidenceModal(evidence)" 
                                                         data-toggle="modal" 
                                                         data-keyboard="false" 
-                                                        data-backdrop="static" title="Evidence Name Here">
+                                                        data-backdrop="static" title="{[{evidence.name}]}">
                                             </div>
                                             <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
                                                 <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">
-                                                    <span data-filename="{[{evidence.s3Path}]}">Image - {[{evidence.name}]}
+                                                    <span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}
                                                     </span>
                                                     <span>{[{evidence.date}]}</span>
                                                 </a>
@@ -115,7 +115,7 @@
                                                 <span data-column-name="filesize">{[{evidence.size}]}</span>
                                                 <!-- <span data-column-name="uploaded">02/12/17</span> -->
                                                 <div data-column-name="linkedto">
-                                                <strong class="text-primary">SITXas3456345645</strong> and <strong class="text-primary">2 other</strong> units 
+                                                <strong class="text-primary">{[{evidence.unitCode}]}</strong> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units 
                                                 </div>
                                                 <!-- <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                                 <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->

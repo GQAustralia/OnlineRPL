@@ -178,7 +178,7 @@ $thumbnail-group-item-card-width: 200px;
 			}
 		}
 		.thumbnail-group-item {
-			width: 100%;
+			width: 100% !important;
 			display: table;
 		}
 		@media screen and (min-width: 568px){
@@ -377,8 +377,10 @@ $thumbnail-group-item-card-width: 200px;
 		@include transition(padding .3s $easing);
 		border-bottom: 1px solid $gray-lighter;
 
+
 		@media screen and (min-width: 568px){
 			padding: 5px;
+			width: 100% !important; 
 		}
 
 		.thumbnail-holder{
