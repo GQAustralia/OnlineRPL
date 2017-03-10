@@ -143,7 +143,7 @@
                                                 
                                                 <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
                                                 <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
-                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url({[{evidence.s3Path}]})'}" title="Evidence Name Here">
                                                     </div>
                                                     <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
                                                             <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
