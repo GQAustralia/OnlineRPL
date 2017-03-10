@@ -5651,7 +5651,7 @@ class UserService {
     public function sentEmailForFeedBack($feedBackType, $detailedFeedBack, $userId){
 
         $toEmail = $this->container->getParameter('rpl_support_mail');
-        $subject = "FeedBack Form";
+        $subject = "Online RPL Feedback";
         $mailBody = "FeedBack Type: ".$feedBackType."\n Detailed FeedBack: ".$detailedFeedBack."\n";
         $fromEmail = $this->currentUser->getEmail();
         $fromUserName = $this->currentUser->getFirstName()." ".$this->currentUser->getLastName();
