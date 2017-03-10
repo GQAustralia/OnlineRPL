@@ -19,8 +19,8 @@
                     <div class="panel-qualification-heading">
                         <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
                         <div class="heading">
-                            <span>Welcome back,</span>
-                            <span>{{ userObj.getUsername() }}!</span>
+                            <span>Welcome,</span>
+                            <span>{{ userFName }}!</span>
                         </div>
                     </div>
                     <div class="panel-body">

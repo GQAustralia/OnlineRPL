@@ -1,4 +1,18 @@
- <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'core' && IsLoaded">
+{# Preloading #}
+<div class="container" ng-if="qualificationPage == 'core' && !IsLoaded">
+    <section class="panel">
+        <div class="panel-body" data-loader="content">
+            <section class="loader loading">
+                <i class="msk1"></i>
+                <i class="msk2"></i>
+                <i class="msk3"></i>
+            </section>
+        </div>
+    </section>
+</div>
+{# Preloading #}
+
+<div class="container container-two-column-split " data-panel-parent="two-column-split" ng-show="qualificationPage == 'core' && IsLoaded">
     <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
         <div class="panel panel-default panel-units">
             <div class="panel-body" ng-hide="unitStatusArr['core']['all'].length === 0">
@@ -11,7 +25,7 @@
                 
                  <div class="dropdown dropdown-unit-filter">
                         <button type="button" class="btn btn-default text-left btn-sm" data-toggle="dropdown" ng-init="unitStatusArr['core'].selectedFilter = 'all'">
-                            <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['core'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by '+unitStatusArr['elective'].selectedFilter}]}</span>
+                            <i class="zmdi zmdi-filter-list zmdi-hc-lg zmdi-hc-fw"></i> <span class="filter-text">{[{unitStatusArr['core'].selectedFilter == 'all'?'Filter by Unit Status':'Filtered by ' + unitStatusArr['core'].selectedFilter}]}</span>
                             <i class="zmdi zmdi-chevron-down zmdi-hc-lg zmdi-hc-lg zmdi-hc-fw"></i>
                         </button>
                         <div class="dropdown-menu pull-right">
@@ -26,7 +40,7 @@
                                     <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Satisfactory'].length}]}</strong><small>Satisfactory</small>
                                 </label> <!-- black -->
                                 <label class="progress-summary-item btn btn-default" data-status="notyetsatisfactory" for="unitFilter" ng-click="setCoreFilter('Not Yet Satisfactory')">
-                                    <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Not Yet satisfactory'].length}]}</strong><small>Not Yet Satisfactory</small>
+                                    <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Not Yet Satisfactory'].length}]}</strong><small>Not Yet Satisfactory</small>
                                 </label> <!-- red -->
                                 <label class="progress-summary-item btn btn-default" data-status="competent" for="unitFilter" ng-click="setCoreFilter('Competent')">
                                     <input type="radio" name="unitFilter"><strong>{[{unitStatusArr['core']['Competent'].length}]}</strong><small>Competent</small>
@@ -69,6 +83,5 @@
             </div>
         </div>
     </section>
-{% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
+    {% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
 </div>
-   

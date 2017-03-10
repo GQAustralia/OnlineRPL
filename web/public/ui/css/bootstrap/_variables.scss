@@ -9,24 +9,24 @@ $bootstrap-sass-asset-helper: false !default;
 //## Gray and brand colors for use across Bootstrap.
 
 $gray-base:              #000 !default;
-$gray-darker:            lighten($gray-base, 20%) !default;
-$gray-dark:              lighten($gray-base, 30%) !default;
-$gray:                   lighten($gray-base, 50%) !default;
-$gray-light:             lighten($gray-base, 60%) !default;
+$gray-darker:            #4d4d4d !default;
+$gray-dark:              #777 !default;
+$gray:                   #808080 !default;
+$gray-light:             #b3b3b3 !default;
 $gray-lighter:           lighten($gray-base, 90%) !default;
 
 // GQA Colors
-$brand-green: 			 #26b36a;
+$brand-green: 			 #3dcc82;
 $brand-gray: 			 #808080;
 $brand-orange:			 #ff9933;
 $brand-red: 		 	 #e7302a;
 $brand-bluegreen:		 #70bdc7;
 
 $brand-primary:         $brand-red !default;
-$brand-success:         #5cb85c !default;
+$brand-success:         #3dcc82 !default;
 $brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
+$brand-warning:         #ff9933 !default;
+$brand-danger:          #e7302a !default;
 
 $brand-blue:			#657fb8 !default;
 $brand-purple:			#b0789d !default;
@@ -437,7 +437,7 @@ $nav-tabs-border-color:                     #ddd !default;
 $nav-tabs-link-hover-border-color:          $gray-lighter !default;
 
 $nav-tabs-active-link-hover-bg:             $body-bg !default;
-$nav-tabs-active-link-hover-color:          $brand-red !default;
+$nav-tabs-active-link-hover-color:          $gray-dark !default;
 $nav-tabs-active-link-hover-border-color:   #ddd !default;
 
 $nav-tabs-justified-link-border-color:            #ddd !default;

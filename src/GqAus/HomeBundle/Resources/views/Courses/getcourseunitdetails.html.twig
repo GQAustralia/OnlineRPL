@@ -152,7 +152,7 @@
                                                     <label for="evidenceFiles-{[{evidence.id}]}"></label>
                                                 </div>
                                                 <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
-                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                                    <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" title="Evidence Name Here">
                                                     </div>
                                                     <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
                                                         <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">

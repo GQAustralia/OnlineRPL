@@ -714,6 +714,7 @@ $scope.unitStatusArr['core']['Not Yet Competent'] = [];
 		
 		AjaxService.apiCall("setUserUnitEvidencesStatus", {status: stat, unit: $scope.selectedUnit, userId: $scope.applicantId, userRole: role, courseCode: $scope.courseCode, unitName: $scope.unitDetails[$scope.selectedUnit].title, courseName: $scope.unitDetails[$scope.selectedUnit].title }).then(function (data) {
                     $scope.getUnitInfo();   
+                    $scope.getUserUnits();
                     $scope.selectedUnitObj.isSubmitted = 1;
 		}, function (error) {
 			console.log(error);

@@ -1,112 +1,166 @@
-[data-loader] {
-	.loading {
-		display: block;
-		height: 377px;
-		position: relative;
-		background-color: $gray-lighter;
-	}
+$urlBase: '../img/content-loader/ldr-';
 
+[data-loader] {
 	&:hover {
 		cursor: progress;
 	}
-
 	+ .panel-body {
 		display: none;
 	}
-}
 
-.loader {
-	$urlBase: '../img/content-loader/content-loader-';
-	$leftWidth: 300px;
-	$rightWidth: 93px;
-	$offset: $rightWidth + $leftWidth;
-	$widthCurve: 12px;
-
-	overflow: hidden;
-	width: 100%;
-
-	> .msk1, > .msk2, > .msk3 {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		content: '';
+	.loader {
 		display: block;
-	}
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		background-color: $gray-lighter;
+		@include transition(background, .3s, $easing);
+		@include transition-delay(3s);
 
-	// Left stencil
-	> .msk1 {
-		left: 0;
-		width: $leftWidth;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: left center;
-		background-image: url(#{$urlBase}left.svg);
-		z-index: 1;
-	}
-
-	// Middle stencil
-	> .msk2 {
-		@include calc-sub-two-values(width,100%,$offset);
-		left: $leftWidth;
-		right: $rightWidth;
-		z-index: 2;
-
-		background-repeat: repeat-x;
-		background-size: contain;
-		background-position: center center;
-		background-image: url(#{$urlBase}repeat.svg);
-
-		&:before, &:after {
+		> .msk1, > .msk2, > .msk3 {
 			position: absolute;
-			top: 31px;
-			height: 15px;
-			z-index: 5;
+			top: 0;
+			bottom: 0;
 			content: '';
 			display: block;
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-size: contain;
+			z-index: 10;
 		}
+	}
 
-		// Left curve
-		&:before {
-			right: 100%;
-			width: $widthCurve;
-			background-image: url(#{$urlBase}left-curve.svg);
-		}
-		// Right curve
+	.loading {
+		// Shine
 		&:after {
-			left: 100%;
-			width: $widthCurve;
-			background-image: url(#{$urlBase}right-curve.svg);
-		}	
+			position: absolute;
+			top: -10%;
+			bottom: -10%;
+			content: '';
+			display: block;
+			z-index: 0;
+			width: 25%;
+			left: -30%;
+			@include transform(rotateZ(15deg));
+			@include gradient-horizontal-three-colors($gray-lighter, rgba(255,255,255,0.3), 50%, $gray-lighter);
+			@include animation(shine 2s infinite);
+		}
+	}
+}
+
+[data-loader="heading"] {
+	$stencil-height: 110px;
+	.loader {
+		height: $stencil-height;
 	}
 
-	// Right stencil
-	> .msk3 {
-		right: 0;
-		width: $rightWidth;
-		background-repeat: no-repeat;
+	.msk1, .msk2, .msk3 {
 		background-size: contain;
-		background-position: right center;
-		background-image: url(#{$urlBase}right.svg);
-		z-index: 3;
+		height: $stencil-height;
 	}
 
-	// Shine
-	&:after {
-		position: absolute;
-		top: -10%;
-		bottom: -10%;
-		content: '';
-		display: block;
-		z-index: 0;
-		width: 25%;
-		left: -30%;
-		@include transform(rotateZ(15deg));
-		@include gradient-horizontal-three-colors($gray-lighter, rgba(255,255,255,0.5), 50%, $gray-lighter);
-		@include animation(shine 2s infinite);
+	.msk1 {
+		background-image: url(#{$urlBase}head-1.svg);
+		background-repeat: no-repeat;
+		width: 110px;
 	}
+
+	.msk2 {
+		left: 110px;
+		background-repeat: no-repeat;
+		background-image: url(#{$urlBase}head-2.svg);
+		@include calc-sub-two-values(width, 100%, 140px);
+
+		&:before {
+			left: 37px;
+			right: 30px;
+			position: absolute;
+			display: block;
+			width: 100%;
+			top: 0;
+			bottom: 0;
+			content: '';
+			background-size: contain;
+			background-image: url(#{$urlBase}head-3.svg);
+			background-repeat: repeat-x;
+		}
+	}
+
+	.msk3 {
+		right: 0;
+		width: 30px;
+		background-repeat: no-repeat;
+		background-image: url(#{$urlBase}head-4.svg);
+	}	
+}
+
+[data-loader="content"] {
+	$stencil-height: 284px;
+	.loader {
+		height: $stencil-height;
+	}
+
+	.msk1, .msk2, .msk3 {
+		background-size: auto 100%;
+		height: $stencil-height;
+	}
+
+	.msk1 {
+		@media (max-width: 400px) {
+			width: 220px;
+		}
+		width: 265px;
+		background-repeat: no-repeat;
+		background-image: url(#{$urlBase}content-1.svg);
+	}
+
+	.msk2 {
+		$offset: (265px) + 108;
+		left: 263px;
+		@include calc-sub-two-values(width, 100%, $offset);
+		background-repeat: repeat-x;
+		background-image: url(#{$urlBase}content-2.svg);
+	}
+
+	.msk3 {
+		right: 0;
+		width: 110px;
+		background-repeat: no-repeat;
+		background-image: url(#{$urlBase}content-3.svg);
+	}	
+}
+
+[data-loader="gallery"] {
+	$stencil-height: 230px;
+	$s1: 298px;
+	$s2: 2px;
+	$s3: 110px;
+	$max-width: $s1 + $s3;
+	.loader {
+		height: $stencil-height;
+	}
+
+	.msk1, .msk2, .msk3 {
+		background-size: contain;
+		height: $stencil-height;
+	}
+
+	.msk1 {
+		background-image: url(#{$urlBase}gallery-1.svg);
+		background-repeat: no-repeat;
+		width: $s1;
+	}
+
+	.msk2 {
+		left: $s1;
+		background-repeat: repeat-x;
+		background-color: white;
+		@include calc-sub-two-values(width, 100%, $max-width);
+	}
+
+	.msk3 {
+		right: 0;
+		width: $s3;
+		background-repeat: no-repeat;
+		background-image: url(#{$urlBase}gallery-3.svg);
+	}	
 }
 
 @include keyframes(shine) {

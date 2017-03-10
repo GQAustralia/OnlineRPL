@@ -1,4 +1,18 @@
- <div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && electiveUploadSelected">
+{# Preloading #}
+<div class="container" ng-if="qualificationPage == 'elective' && !IsLoaded && electiveUploadSelected">
+    <section class="panel">
+        <div class="panel-body" data-loader="content">
+            <section class="loader loading">
+                <i class="msk1"></i>
+                <i class="msk2"></i>
+                <i class="msk3"></i>
+            </section>
+        </div>
+    </section>
+</div>
+{# Preloading #}
+
+<div class="container container-two-column-split" data-panel-parent="two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && electiveUploadSelected">
     <section class="section-main col-section-10" ng-class="{'col-section-5': is_open === true, 'col-section-10': is_open === false}" data-panel="left">
         <div class="panel panel-default panel-units">
             <div class="panel-body" ng-hide="unitStatusArr['elective']['all'].length === 0">
@@ -72,4 +86,3 @@
     </section>
     {% include 'GqAusHomeBundle:Courses:unitEvidenceUpload.html.twig' %} 
 </div>
-   

@@ -63,3 +63,11 @@ gqAus.filter('countWord', function () {
     };
 });
 
+// Encode URI
+gqAus.filter('encodeURI', function () {
+    return function (text) {
+        var s = text ? encodeURI(text) : ''; 
+        return s;
+    };
+});
+

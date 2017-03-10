@@ -8,6 +8,7 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
        evidenceFiles:{},
        isLibrary:false
     };
+    $scope.selectedCat = 'test';
     $scope.checkVal = {};
     $scope.fileAssToArr = [];
     $scope.fileAssToObj = {};
@@ -80,10 +81,13 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     }
     
     $scope.filterCat = function(catid){
-        if(catid === '6') 
+        if(catid === '6')  {
             $scope.allEvidences = $scope.evidences;
-        else
+        }
+        else {
             $scope.allEvidences = _.where($scope.evidences, {"catId":catid});
+            $scope.selectedCat = $scope.allEvidenceCats[catid].name;
+        }
     }
     
 //    $scope.fileAssociatedTo = function(courseCode){

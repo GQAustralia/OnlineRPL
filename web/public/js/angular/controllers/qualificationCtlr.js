@@ -3,11 +3,12 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.unitsFetched = false;
     $scope.pageStats = {
         evidenceEdit: false,
-        evidenceView: 'card',
-        libraryView: 'card',
+        evidenceView: 'list',
+        libraryView: 'list',
         evidenceFiles: {},
         isLibrary: false
     };
+    $scope.initQualPage = true;
     $scope.electiveUnits = [];
     $scope.allElectiveUnits = [];
     $scope.selectedElectiveUnits = [];
@@ -658,6 +659,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                 $scope.IsLoaded = true;
 
             } else {
+
                 if (newValues === "core") {
                     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Core unit";
                 }
@@ -673,6 +675,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
                 $scope.getUploadDetails();
                 $scope.closeSelected();
                 ($scope.unitsFetched == false) ? $scope.getUnits() : $scope.IsLoaded = true;
+
+                $scope.initQualPage = false;
             }
         }
     });

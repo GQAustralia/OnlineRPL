@@ -1,5 +1,33 @@
+{# Preloading #}
+<div class="container" ng-if="qualificationPage == 'elective' && !IsLoaded && (electiveUploadSelected === false)">
+    <section class="section-main col-section-5">
+        <div class="panel panel-default">
+            <div class="panel-body" data-loader="content">
+                <section class="loader loading">
+                    <i class="msk1"></i>
+                    <i class="msk2"></i>
+                    <i class="msk3"></i>
+                </section>
+            </div>
+        </div>
+    </section>
+    <section class="section-main col-section-5">
+        <div class="panel panel-default">
+            <div class="panel-body" data-loader="content">
+                <section class="loader loading">
+                    <i class="msk1"></i>
+                    <i class="msk2"></i>
+                    <i class="msk3"></i>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+{# Preloading #}
+
 <div class="container container-two-column-split" ng-show="qualificationPage == 'elective' && IsLoaded && (electiveUploadSelected === false)">
-    
+
+    {# List of Units #}
     <section class="section-main col-section-5" ng-init="courseCode='{{courseCode}}'">
         <div class="panel panel-default panel-units">
             <div class="panel-body">
@@ -53,6 +81,8 @@
             </div>
         </div>
     </section>
+
+    {# Selected Units #}
     <section class="section-main col-section-5">
         <div class="panel panel-default panel-selected-units">
             <div class="panel-selected-units-body">
@@ -96,4 +126,3 @@
         </div>
     </section>
 </div>
-  
