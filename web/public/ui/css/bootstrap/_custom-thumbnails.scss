@@ -46,7 +46,7 @@ $thumbnail-group-item-card-width: 200px;
 
 			.thumbnail-header {
 				position: relative; 
-				background-size: cover; // ie
+				@include background-size(cover);
 				width: 100%; // ie
 				min-height: 160px;
 			}
@@ -341,6 +341,7 @@ $thumbnail-group-item-card-width: 200px;
 
 	&.stacked{
 		padding-top: 0;
+		margin-top: 15px;
 		.thumbnail-header{
 			display: block;
 		}

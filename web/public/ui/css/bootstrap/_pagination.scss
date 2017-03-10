@@ -22,7 +22,11 @@
       @include transition(all .3s $easing);
       // border: 1px solid $pagination-border;
       // margin-left: -1px;
+      @media screen and (max-width: 320px){
+        padding: 8px 10px;
+      }
     }
+
     // &:first-child {
     //   > a,
     //   > span {
