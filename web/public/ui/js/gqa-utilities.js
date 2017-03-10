@@ -317,26 +317,6 @@ var FILE_THUMBNAIL = {
 }
 var GQA_FOOTER =  {
 	doc: $(document),
-	watch: function() {
-		function onElementHeightChange(elm, callback){
-			var lastHeight = elm.clientHeight, newHeight;
-			(function run(){
-				newHeight = elm.clientHeight;
-				if( lastHeight != newHeight )
-					callback();
-				lastHeight = newHeight;
-
-		        if( elm.onElementHeightChangeTimer )
-		          clearTimeout(elm.onElementHeightChangeTimer);
-
-				elm.onElementHeightChangeTimer = setTimeout(run, 100);
-			})();
-		}
-
-		onElementHeightChange(document.body, function(){
-			GQA_FOOTER.handle_footer();
-		});
-	},
 	handle_footer: function() {
 		var wh = $(window).height(),
 			body = $('body'),
@@ -418,11 +398,6 @@ var DROPDOWN_PICKER = {
 }
 
 // auto height if textarea as user types
-var update = function () {
-	
-	console.log('test');
-}
-
 var TEXTAREA_AUTOHEIGHT = {
 	temp: '',
 	tmr: undefined,
@@ -582,7 +557,7 @@ var GLOBAL_UI = {
 
 		HAS_ERROR.build();
 		GQA_HEADER.build();
-		GQA_FOOTER.watch();
+		GQA_FOOTER.build();
 	}
 }
 

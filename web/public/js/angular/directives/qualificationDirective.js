@@ -16,6 +16,24 @@ gqAus.directive('autoExpand', function ($window) {
         link: link
     }
 });
+gqAus.directive('checkHeight', function ($window) {
+    var link = function (scope, element, attrs) {
+        scope.$watch(
+            function () {
+                return element.height();
+            },
+            function (newValue, oldValue) {
+                if (newValue != oldValue) {
+                    GQA_FOOTER.handle_footer();
+                }
+            }
+        );
+    };
+    return {
+        restrict: 'A',
+        link: link
+    }
+});
 gqAus.directive('gqAudio', function ($timeout) {
     var i = 0;
     var link = function (scope, element, attrs) {    

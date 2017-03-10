@@ -193,13 +193,14 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 			word-break: break-word;
 			margin: 0 !important;
 			color: $gray-dark;
+			padding: 15px 30px;
 
-			@media (max-width: $screen-sm-max) {
-				padding: 15px 30px;
-			}
-			@media (min-width: $screen-md-min) {
-				padding: 15px 50px;
-			}
+			// @media (max-width: $screen-sm-max) {
+			// 	padding: 15px 30px;
+			// }
+			// @media (min-width: $screen-md-min) {
+			// 	padding: 15px 30px;
+			// }
 
 			&:hover {
 				background-color: lighten($gray-lighter,5%);

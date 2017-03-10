@@ -117,7 +117,9 @@
 
 				.avatar { top: 15px; }
 			}
-
+			nav.header-gqa-nav {
+				margin-top: 0;
+			}
 			nav.header-gqa-nav .dropdown-menu {
 				margin-top: 0;
 				min-width: 100%;
@@ -134,6 +136,7 @@
 	nav.header-gqa-nav {
 		float: right;
 		display: block;
+		margin-top: 10px;
 
 		.nav-links {
 			position: relative;
@@ -168,7 +171,7 @@
 				}
 
 				> a {
-					padding: 44px 10px;
+					padding: 34px 10px;
 					font-size: 16px;
 					position: relative;
 					text-align: initial;
@@ -188,7 +191,7 @@
 
 			> .dropdown {
 				> .dropdown-toggle {
-					padding: 44px 13px;
+					padding: 34px 13px;
 					padding-left: $avatar-xxs + 20 !important;
 					display: inline-block;
 					color: white;
@@ -196,7 +199,7 @@
 					.avatar {
 						display: block;
 						position: absolute;
-						top: 34px;
+						@include calc-sub-two-values(top,50%,$avatar-xxs/2);
 						left: 10px;
 					}
 					.avatar-name {
@@ -258,11 +261,15 @@
 			}
 			.nav-links > li > a,
 			.avatar-menu > .dropdown > .dropdown-toggle {
-				padding: 25px 15px;
+				padding: 25px 10px;
 
-				.avatar { top: 15px; }
+				.avatar {
+					@include calc-sub-two-values(top, 50%, $avatar-xxs/2);
+				}
 			}
-
+			nav.header-gqa-nav {
+				margin-top: 0;
+			}
 			nav.header-gqa-nav .dropdown-menu {
 				margin-top: 0;
 				min-width: 100%;
@@ -280,6 +287,7 @@
 	nav.header-gqa-nav {
 		float: right;
 		display: block;
+		margin-top: 10px;
 
 		.nav-links {
 			position: relative;
@@ -315,7 +323,7 @@
 				}
 
 				> a {
-					padding: 44px 10px;
+					padding: 34px 10px;
 					font-size: 16px;
 					position: relative;
 					z-index: 1;
@@ -334,7 +342,7 @@
 
 			> .dropdown {
 				> .dropdown-toggle {
-					padding: 44px 13px;
+					padding: 34px 13px;
 					padding-left: $avatar-xxs + 20 !important;
 					display: inline-block;
 					color: white;
@@ -342,7 +350,7 @@
 					.avatar {
 						display: block;
 						position: absolute;
-						top: 34px;
+						@include calc-sub-two-values(top,50%,$avatar-xxs/2);
 						left: 10px;
 					}
 					.avatar-name {

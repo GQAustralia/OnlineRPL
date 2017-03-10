@@ -51,7 +51,7 @@
 				background-color: transparent;
 				border: none;
 				border-radius: 0;
-				padding: $padding-large-vertical $padding-large-horizontal;
+				// padding: $padding-large-vertical $padding-large-horizontal;
 				padding-right: $padding-large-horizontal*2;
 				@include transition(background-color .3s $easing);
 

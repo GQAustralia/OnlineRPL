@@ -46,7 +46,7 @@
 {% set roles = app.security.getToken().getUser().getRoles() %}
 {% set route = app.request.attributes.get('_route') %}
 {% set baseUrl = app.request.server.get('REQUEST_SCHEME')~'://'~app.request.server.get('HTTP_HOST') %}
-<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {% elseif roles[0] == 'ROLE_ASSESSOR' %} data-role="assessor" {% elseif roles[0] == 'ROLE_RTO' %} data-role="rto" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}">
+<body  {% if roles[0] == 'ROLE_FACILITATOR' %} data-role="account-manager" {% elseif roles[0] == 'ROLE_ASSESSOR' %} data-role="assessor" {% elseif roles[0] == 'ROLE_RTO' %} data-role="rto" {%endif%} {% block ngController %}{% endblock %} class="{% if is_mobile() %}is-mobile{% elseif is_tablet() %}is-tablet{% else %}is-desktop{% endif%}" check-height>
     
     {% set applicantStatus = app.security.getToken().getUser().getApplicantStatus() %}
     {% set page = app.request.attributes.get('_route') %}
@@ -235,7 +235,7 @@
     
 {% block body %}{% endblock %}
 
-<footer class="footer-gqa" data-toggle="auto-fixed-footer">
+<footer class="footer-gqa navbar-fixed-bottom" data-toggle="auto-fixed-footer">
     <section class="container">
         <img class="footer-gqa-logo img-responsive" src="{{ asset(baseUrl~'/public/ui/img/gqa-logo-full-white-type.svg') }}" alt="Get Qualified Australia">
         <ul class="footer-gqa-nav list-inline small text-right" style="margin-top: 10px;">

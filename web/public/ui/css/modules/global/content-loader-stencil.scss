@@ -1,12 +1,6 @@
 $urlBase: '../img/content-loader/ldr-';
 
 [data-loader] {
-	.loading {
-		background-color: $gray-lighter;
-		@include transition(background, .3s, $easing);
-		@include transition-delay(3s);
-	}
-
 	&:hover {
 		cursor: progress;
 	}
@@ -19,6 +13,9 @@ $urlBase: '../img/content-loader/ldr-';
 		position: relative;
 		overflow: hidden;
 		width: 100%;
+		background-color: $gray-lighter;
+		@include transition(background, .3s, $easing);
+		@include transition-delay(3s);
 
 		> .msk1, > .msk2, > .msk3 {
 			position: absolute;
@@ -28,7 +25,9 @@ $urlBase: '../img/content-loader/ldr-';
 			display: block;
 			z-index: 10;
 		}
- 
+	}
+
+	.loading {
 		// Shine
 		&:after {
 			position: absolute;
