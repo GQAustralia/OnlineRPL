@@ -84,7 +84,7 @@
 
                                         <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
                                             <!-- IF IMAGE -->
-                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url({[{evidence.s3Path}]})'}" ng-click="showEvidenceModal(evidence)" 
+                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" ng-click="showEvidenceModal(evidence)" 
                                                         data-toggle="modal" 
                                                         data-keyboard="false" 
                                                         data-backdrop="static" title="{[{evidence.name}]}">

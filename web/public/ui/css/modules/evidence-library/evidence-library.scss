@@ -3,7 +3,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 
 @mixin padding() {
 	@media (max-width: $screen-xs-max) {
-		padding: 15px;
+		padding: 15px 10px;
 	}
 	@media (min-width: $screen-sm-min) {
 		padding: 30px;	
@@ -14,15 +14,28 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 	@include clearfix();
 	position: relative;
 
-	.checkbox-control,.btn-group {
-		display: block;
-		float: left;
+	.btn {
+		float: left !important;
+		display: inline-block !important;
+		
+	}
 
-		.btn {
-			float: left !important;
-			display: inline-block !important;
+	@media screen and (max-width: $screen-xs-min){
+		.btn{
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
+	@media screen and  (min-width: $screen-xs-min){
+		.checkbox-control{
+			.btn{
+				padding-left: 7px;
+				padding-right: 7px;
+			}
+
+		}
+	}
+
 
 	.divider {
 	    display: block;
@@ -76,6 +89,8 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 	}
 	.panel-evidence-controls {
 		@include padding();
+
+
 	}
 	.panel-evidence-library-body {
 		border-radius: $panel-border-radius;
@@ -141,18 +156,29 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 
 	.evidence-controls {
 		height: 36px;
+		.evidence-toggle-view{
+			float: left;
+		}
+		.btn-group{
+			float: left;
+		}
 		.dropdown {
 			> .btn {
 				padding: 8px 12px;
 			}
 		}
-		@media (max-width: 320px) {
+		@media (max-width: $screen-xs-min) {
+			.dropdown > .btn{ padding: 8px 0px 8px 5px; }
 			> .btn-group > .btn, 
 			.evidence-toggle-view > .btn-group > .btn {
-				padding-right: 2px;
-				padding-left: 2px;
+				padding-right: 0;
+
+				padding-left: 0;
+
 			}
-			.divider { margin-left: 5px; margin-right: 5px; }
+			.divider { margin-left: 1px; margin-right: 1px; }
+
+			.evidence-controls-label { font-size: 12px; }
 		}
 	}
 
@@ -334,6 +360,6 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 }
 
 .is-mobile .evidence-controls .checkbox-control {
-    margin: 6px 15px 0 0;
-    padding: 10px 25px 10px 0;
+	margin: 6px 0px 0 0;
+	padding: 10px 0px 10px 0;
 }

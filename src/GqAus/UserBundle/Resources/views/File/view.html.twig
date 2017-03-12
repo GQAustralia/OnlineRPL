@@ -77,6 +77,17 @@
                             <div class="input-group-search"><input type="text" class="form-control" ng-model="search" placeholder="Search..."><i class="zmdi zmdi-search zmdi-hc-2x icon"></i></div>                    
                         </div>
                         <div class="evidence-controls btn-group-toolbar">
+                            <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                <label class="btn btn-transparent" for="selectControl" ng-click="customCheck()">
+                                     <input type="checkbox" name="test" value="1" ng-checked="pageStats.evidenceEdit == true" ng-model="pageStats.evidenceEdit" id="selectControl"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-select-all"></i>
+                                </label>
+                            </div>
+                            <div class="btn-group btn-group-xs" ng-if="!isSubmitted() && pageStats.evidenceEdit">
+                                <button type="button" class="btn btn-transparent" ng-click="deleteEvidence()" ><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-delete"></i></button>
+                            </div>
+                            <!-- <div class="checkbox-control" ng-if="!isSubmitted()">
+                                <input type="checkbox" name="test" value="1"  ng-model="pageStats.evidenceEdit" id="selectControl" class="custom-input"><label for="selectControl"><span class="hidden-mobile">Edit</span></label>
+                            </div> -->
                             <div class="evidence-toggle-view">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-transparent" for="gridView" ng-click="pageStats.evidenceView = 'card'">
@@ -123,11 +134,18 @@
                             <div class="clearfix">
                                 <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
                                     <li class="thumbnail-group-item" dir-paginate="evidence in allEvidences|orderBy:propertyName:reverse|filter:search|itemsPerPage:28"  data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                        <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''">
+                                            <input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input">
+                                            <label for="evidenceFiles-{[{evidence.id}]}"></label>
+                                        </div>
+                                        <div class="thumbnail-group-selection locked" ng-if="evidence.jobId != ''">
+                                           <i class="zmdi zmdi-hc-2x zmdi-lock"></i>
+                                        </div>
 
                                         <div class="thumbnail-holder">
 
                                             <!-- IF IMAGE -->
-                                                <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url({[{evidence.s3Path}]})'}" title="{[{evidence.name}]}" data-toggle="modal"  data-keyboard="false"></div>
+                                                <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" title="{[{evidence.name}]}" data-toggle="modal"  data-keyboard="false"></div>
 
                                                 <div class="thumbnail-body" ng-if="evidence.type == 'image'">      
                                                     <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">
@@ -154,16 +172,21 @@
                                                     <!-- <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
                                                     <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                                     <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->
-                                                    <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span>{[{evidence.created}]}</span></a>
+                                                    <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span class="date-uploaded">{[{evidence.created}]}</span></a>
                                                     <span data-column-name="filesize">{[{evidence.size}]}</span>
                                                     <!-- <span data-column-name="uploaded">{[{evidence.created}]}</span> -->
                                                     <div data-column-name="linkedto"><strong class="text-primary">{[{evidence.unitCode}]}</strong><span ng-if="evidence.linkedTo > 0"> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units </span></div>
                                                 </div>
                                             <!-- END IF NOT IMAGE -->
                                         </div>
-                                        <div class="dropdown dropdown-thumbnail" ng-if="evidence.jobId == ''">
-                                            <button type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="dropdown"><i class="zmdi zmdi-more zmdi-hc-lg"></i></button>
-                                            <ul class="dropdown-menu pull-right">
+                                        <div class="dropdown dropdown-thumbnail"> 
+                                            <!-- <button ng-click="deleteEvidence()" type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="tooltip" title="Delete" data-placement="left" ng-if="evidence.jobId != ''">
+                                                <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+                                            </button> -->
+                                            <button type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" ng-if="evidence.jobId == ''" data-toggle="dropdown">
+                                                <i class="zmdi zmdi-more zmdi-hc-lg"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right" ng-if="evidence.jobId == ''">
                                                 <li ng-if="evidence.type == 'image'">
                                                     <a  data-trigger="preview-file" ng-click="showEvidenceModal(evidence)" href data-keyboard="false" data-backdrop="static">
                                                         <i class="zmdi zmdi-hc-lg zmdi-eye zmdi-hc-fw"></i> View file
@@ -174,6 +197,19 @@
                                                      <a ng-if="evidence.type != 'image'" target="_blank" href="{[{evidence.s3Path}]}">
                                                         <i class="zmdi zmdi-hc-lg zmdi-eye zmdi-hc-fw"></i> View file
                                                     </a>                                                   
+                                                </li>
+                                                <li>
+                                                    <a href="" data-target="#manageUnitLinkage" data-toggle="modal" data-keyboard="false" data-backdrop="static">
+                                                        <table>
+                                                            <tbody><tr>
+                                                                <td><i class="zmdi zmdi-hc-lg zmdi-link zmdi-hc-fw"></i> </td>
+                                                                <td style="padding-left: 5px;">
+                                                                    Manage link to unit(s)<br>
+                                                                    <small>Change where this file is associated to</small>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </a>
                                                 </li>
                                                 <li class="divider"></li>
                                                 <li>

@@ -250,6 +250,10 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     $scope.uploadfailed = function (msg) {
         $window.alert(msg);
     };
+
+    $scope.customCheck = function() {
+        $scope.pageStats.evidenceEdit === false ? $scope.pageStats.evidenceEdit = true : $scope.pageStats.evidenceEdit = false;
+    };
     
     $scope.uploadstarted = function (file, fileNum, dataObj) {
         var index = $scope.uploadInProgress.uploads.length;
