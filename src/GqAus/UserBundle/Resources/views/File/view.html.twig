@@ -82,6 +82,9 @@
                                      <input type="checkbox" name="test" value="1" ng-checked="pageStats.evidenceEdit == true" ng-model="pageStats.evidenceEdit" id="selectControl"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-select-all"></i>
                                 </label>
                             </div>
+                            <div class="btn-group btn-group-xs" ng-if="!isSubmitted() && pageStats.evidenceEdit">
+                                <button type="button" class="btn btn-transparent" ng-click="deleteEvidence()" ><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-delete"></i></button>
+                            </div>
                             <!-- <div class="checkbox-control" ng-if="!isSubmitted()">
                                 <input type="checkbox" name="test" value="1"  ng-model="pageStats.evidenceEdit" id="selectControl" class="custom-input"><label for="selectControl"><span class="hidden-mobile">Edit</span></label>
                             </div> -->
@@ -136,7 +139,7 @@
                                             <label for="evidenceFiles-{[{evidence.id}]}"></label>
                                         </div>
                                         <div class="thumbnail-group-selection locked" ng-if="evidence.jobId != ''">
-                                           <i class="zmdi zmdi-lock"></i>
+                                           <i class="zmdi zmdi-hc-2x zmdi-lock"></i>
                                         </div>
 
                                         <div class="thumbnail-holder">
@@ -169,7 +172,7 @@
                                                     <!-- <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
                                                     <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
                                                     <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->
-                                                    <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span>{[{evidence.created}]}</span></a>
+                                                    <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span class="date-uploaded">{[{evidence.created}]}</span></a>
                                                     <span data-column-name="filesize">{[{evidence.size}]}</span>
                                                     <!-- <span data-column-name="uploaded">{[{evidence.created}]}</span> -->
                                                     <div data-column-name="linkedto"><strong class="text-primary">{[{evidence.unitCode}]}</strong><span ng-if="evidence.linkedTo > 0"> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units </span></div>
@@ -177,9 +180,9 @@
                                             <!-- END IF NOT IMAGE -->
                                         </div>
                                         <div class="dropdown dropdown-thumbnail"> 
-                                            <button ng-click="deleteEvidence()" type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="tooltip" title="Delete" data-placement="left" ng-if="evidence.jobId != ''">
+                                            <!-- <button ng-click="deleteEvidence()" type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="tooltip" title="Delete" data-placement="left" ng-if="evidence.jobId != ''">
                                                 <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
-                                            </button>
+                                            </button> -->
                                             <button type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" ng-if="evidence.jobId == ''" data-toggle="dropdown">
                                                 <i class="zmdi zmdi-more zmdi-hc-lg"></i>
                                             </button>

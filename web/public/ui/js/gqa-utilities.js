@@ -225,10 +225,10 @@ var FILE_THUMBNAIL = {
 	doc: $(document),
 	evidence_controls: '.evidence-controls [for], .panel-evidence-filters',
 	bind: function(){
-		this.doc.on('click', this.evidence_controls, function(){
-			FILE_THUMBNAIL.compute();
-			FILE_THUMBNAIL.stack_list_view();
-		})
+		// this.doc.on('click', this.evidence_controls, function(){
+		// 	FILE_THUMBNAIL.compute();
+		// 	FILE_THUMBNAIL.stack_list_view();
+		// })
 	},
 	detect_list_view: function(){
 		var group = $('.thumbnail-group');
@@ -241,6 +241,8 @@ var FILE_THUMBNAIL = {
 			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked');}
 			else{lv.removeClass('stacked')}
 		}
+
+		console.log($('[data-has-thumbnail="true"]').width())
 	},
 	compute: function(){
 		var p = $('[data-has-thumbnail="true"]'),

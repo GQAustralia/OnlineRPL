@@ -79,6 +79,10 @@ $thumbnail-group-item-card-width: 200px;
 			}
 		}
 
+		.date-uploaded{
+			display: none; 
+		}
+
 		[data-has-icon="true"] {
 			.thumbnail-body {
 				@include gradient-vertical(transparent, transparent, -15%, 100%);
@@ -238,9 +242,11 @@ $thumbnail-group-item-card-width: 200px;
 			display: block;
 			white-space: nowrap;
 
-			.date-uploaded{
-				font-size: 11px;
-			}
+			
+		}
+
+		.date-uploaded{
+			font-size: 11px;
 		}
 	}	
 }
@@ -290,8 +296,16 @@ $thumbnail-group-item-card-width: 200px;
 		}
 	}
 	&.edit-mode {
+
 		.thumbnail-group-selection {
 			display: block;
+
+			&.locked{
+				top: 7px;
+				.zmdi-hc-2x.zmdi-lock{
+					font-size: 20px;
+				}
+			}
 		}
 		.thumbnail-group-item {
 			padding-top: 30px;
