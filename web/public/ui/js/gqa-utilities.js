@@ -241,8 +241,6 @@ var FILE_THUMBNAIL = {
 			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked');}
 			else{lv.removeClass('stacked')}
 		}
-
-		console.log($('[data-has-thumbnail="true"]').width())
 	},
 	compute: function(){
 		var p = $('[data-has-thumbnail="true"]'),
