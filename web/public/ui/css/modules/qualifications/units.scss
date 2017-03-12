@@ -107,8 +107,16 @@ $qual-img-height: 200px;
 	}
 }
 
-.panel-contacts {
+.is-desktop {
+	.panel-contacts {
+		background-color: transparent;
+		@include box-shadow(none);
+		border: none;
 
+		.panel-body {
+			padding: 0;
+		}
+	}
 }
 
 .mTop {

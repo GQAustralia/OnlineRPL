@@ -134,10 +134,10 @@
                             {% if ('ROLE_SUPERADMIN' not in roles) %} 
                                 <li>
                                     <a href='{{ baseUrl }}/messages' class="visible-mobile">
-                                        <span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
+                                        <span class="t-item-3-1"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
                                     </a>
                                     <a href class="dropdown-toggle hidden-mobile" data-toggle="dropdown" data-inbox-count="{{unreadMsgs.unreadMsgCnt}}">
-                                        <span class="t-item-3"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
+                                        <span class="t-item-3-2"><i class="zmdi zmdi-inbox zmdi-hc-lg zmdi-hc-fw"></i> Inbox</span>
                                         <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-messages pull-right">  
@@ -155,7 +155,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-messaging">
-                                                    <div class="clearfix">{% if unreadwMsg.getSystemGenerated()  == 1 %}<span class="label label-default pull-left">System</span>{% endif %}<small class="text-muted pull-right">{{user_service.formatMsgTime(unreadwMsg.getCreated())}}</small></div>
+                                                    <div class="clearfix">{% if unreadwMsg.getSystemGenerated()  == 1 %}<span class="label label-default pull-left">System</span>{% endif %}<span class="text-muted pull-right small-date">{{user_service.formatMsgTime(unreadwMsg.getCreated())}}</span></div>
                                                     <label>{{unreadwMsg.sent.getUserName()}}</label>
                                                     <p class="break-word">{{unreadwMsg.getSubject()}}</p>
                                                 </div>
@@ -171,7 +171,11 @@
                                           
                                             <!-- If nothing to display -->
                                     {% endif %}
-                                        <li><a class="btn btn-link text-uppercase btn-block" href="{{ baseUrl }}/messages"><strong>Go to Inbox</strong></a></li>
+                                        <li>
+                                            <a class="btn-message btn-transparent text-uppercase btn-block text-center" href="{{ baseUrl }}/messages">
+                                                <strong>Go to Inbox</strong>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             {% endif %}
@@ -215,12 +219,20 @@
                         <div class="dropdown-toggle" data-toggle="dropdown">
                             <div class="avatar avatar-xxs t-item-5"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}{{ baseUrl }}/public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
                             {# onerror="this.src='{{ baseUrl }}/public/ui/img/avatar-default.png'" #}
-                            <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp;
+                            {# <span class="avatar-name" id="avatarFirstName">{{ userFName }}</span>&nbsp; #}
                             <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                         </div>
 
                         <ul class="dropdown-menu pull-right">
-                            {% if app.request.attributes.get('_route') != 'enrollment' %}<li><a href="{{ baseUrl }}/userprofile"><i class="zmdi zmdi-account-circle zmdi-hc-lg zmdi-hc-fw"></i> My Profile</a></li>
+                            {% if app.request.attributes.get('_route') != 'enrollment' %}
+                                <li>
+                                    <a href="{{ baseUrl }}/userprofile">
+                                        <div class="avatar avatar-xs"><img src="{% if userImage  != '' %}{{amazon_link~'user-'~userId~'/'~userImage}}{%else%}{{ baseUrl }}/public/ui/img/avatar-default.png{%endif%}" alt="You">
+                                        </div>
+                                        <h4>{{ userFName }} {{ userLName }}</h4>
+                                        <strong>View My Profile</strong>
+                                    </a>
+                                </li>
                             <li class="divider"></li> {% endif %}
                             <li><a href="{{ baseUrl }}/logout"><i class="zmdi zmdi-power-off zmdi-hc-lg zmdi-hc-fw"></i> Sign out</a></li>
                         </ul>

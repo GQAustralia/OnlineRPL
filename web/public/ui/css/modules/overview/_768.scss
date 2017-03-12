@@ -4,25 +4,4 @@
 			padding: 40px 60px;
 		}
 	}
-	.panel-qualification-gauges {
-		padding: 15px 60px 40px 60px;
-		.qual-gauges {
-			&:first-child {
-				width: $big-circle-width;
-			}
-			&:nth-child(2) {
-				@include calc-sub-two-values(width, 100%, $big-circle-width);
-			}
-			&:nth-child(3) {
-
-			}
-			&:last-child {
-
-			}
-
-			progress {
-				width: 100%;
-			}
-		}
-	}
 }

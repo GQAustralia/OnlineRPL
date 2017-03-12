@@ -17,8 +17,6 @@
 	    padding: 30px;
 	    margin-bottom: 0;
 	    background-size: 153%;
-	    // background-color: #f5f5f5;
-	    // border-bottom: 1px solid #e8e8e8;
 	}
 }
 
@@ -76,27 +74,7 @@
 			position: relative;
 			@include pointing-left-heading(white);
 			margin-bottom: 0;
-			// padding: 15px;
-		}
-	}
-
-	.panel-qualification-gauges {
-		// padding: 15px;
-		.qual-gauges {
-			&:first-child {
-				width: $big-circle-width;
-			}
-			&:nth-child(2) {
-				// @include calc-sub-two-values(width, 100%, $big-circle-width);
-				margin-bottom: 15px;
-				progress { width: 340px; }
-			}
-			&:nth-child(3) {
-
-			}
-			&:last-child {
-
-			}
+			padding: 15px;
 		}
 	}
 

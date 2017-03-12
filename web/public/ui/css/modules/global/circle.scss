@@ -95,6 +95,8 @@ $bg-color-dark: white;
 		font-size: 0.25em;
 		color: $primary-color;
 
+		small { font-size: 18px; }
+
 		display: block;
 		text-align: center;
 		white-space: nowrap;
@@ -139,36 +141,34 @@ $bg-color-dark: white;
 	// smaller size
 	&.small{
 		$circle-width: 0.03em;
-		font-size: 8em;
+		font-size: 7.3em;
 
 		.slice {
 			> .fill {
-			    // border: .04em solid gray;
-			    // width: .96em;
-			    // height: .96em;
-				// border: $circle-width solid $primary-color;
-				// width: 1 - (2 * $circle-width);
-				// height: 1 - (2 * $circle-width);
+				border-width: $circle-width;
+				width: 1 - (2 * $circle-width);
+				height: 1 - (2 * $circle-width);
+				border-radius: 50%;
 			}
 			> .bar {
 				border: $circle-width solid $primary-color;
 				width: 1 - (2 * $circle-width);
 				height: 1 - (2 * $circle-width);
-			    // border: .031em solid gray;
-			    // width: .94em;
-			    // height: .94em;
+				border-radius: 50%;
 			}
 		}
 		&:after {
-		    // top: .03em;
-		    // left: 0.03em;
-		    // width: .94em;
-		    // height: .94em;
-
 			top: $circle-width;
 			left: $circle-width;
 		    width: 1 - (2 * $circle-width);
 		    height: 1 - (2 * $circle-width);
+		}
+
+		> span { 
+			line-height: 2.7em;
+			font-size: 0.38em;
+			width: 100%;
+			text-align: center;
 		}
 	}
 
@@ -210,9 +210,7 @@ $bg-color-dark: white;
 
 	// override colors for the dark skin
 	&.dark {
-
 		background-color: $secondary-color-dark;
-
 		.bar,
 		.fill{
 			border-color: $primary-color-dark !important;
@@ -236,25 +234,25 @@ $bg-color-dark: white;
 		}
 
 	}
+	// green
+	&.gray{
+		.bar, .fill { border-color: $primary-color !important;}
+		&:hover{
+			> span { color: $gray-dark;}
+		}
+	}
 
-
-	// green skin
+	// green
 	&.green{
-
 		.bar, .fill { border-color: $primary-color-green !important;}
-
 		&:hover{
 			> span { color: $primary-color-green;}
 		}
-
 	}
 
-
-	// orange skin
+	// orange
 	&.orange{
-
 		.bar, .fill { border-color: $primary-color-orange !important;}
-
 		&:hover{
 			> span { color: $primary-color-orange;}
 		}

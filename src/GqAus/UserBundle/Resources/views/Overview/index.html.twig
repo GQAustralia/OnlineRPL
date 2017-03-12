@@ -15,15 +15,15 @@
     <main class="main-content-gqa">
         <div class="container container-left-sidebar-main">
             <section class="section-sidebar">
-                <div class="panel panel-default">
+                <div class="panel panel-default m_overflow-mobile">
                     <div class="panel-qualification-heading">
                         <div class="avatar avatar-xs"><img src="{% if userImg  != '' %}{{amazon_link~'user-'~userId~'/'~userImg}}{%else%}public/ui/img/avatar-default.png{%endif%}" alt="You"></div>
                         <div class="heading">
-                            <span>Welcome,</span>
+                            <span id="greetingNote">Welcome,</span>
                             <span>{{ userFName }}!</span>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body hidden-mobile">
                         <p>
                             This is your Online RPL homepage. You can see here the qualifications you are currently enroled in.
                          </p>
@@ -73,7 +73,14 @@
                          <div class="panel-body-group">
                              <h3 class="h3 qual-title"><small>{{ courseCode }}</small><br> {{ courses.getCourseName() }}</h3>
                              <div class="panel-qualification-gauges">
- 
+
+                                 <div class="qual-gauges">
+                                     <div class="progress-tag progress-tag-{% if(output[0]<30) %}danger{% elseif(output[0]<90) %}warning{% else %}success{%endif%}">
+                                         <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
+                                         <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
+                                     </div>
+                                 </div>
+
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ evidenceCompleteness|trim('%') }} big {% if evidenceCompleteness|trim('%') == 100 %} green {% elseif evidenceCompleteness|trim('%') < 50 %} orange {% else %} gray {% endif %}">
                                          <span>
@@ -85,22 +92,15 @@
                                  </div>
  
                                  <div class="qual-gauges">
-                                     <div class="progress-tag progress-tag-{% if(output[0]<30) %}danger{% elseif(output[0]<90) %}warning{% else %}success{%endif%}">
-                                         <progress role="progress" value="{{output[1]}}" max="100"><img class="fallback" width="30"></progress>
-                                         <figcaption data-value="{{output[0]}}" data-unit="" class="progress-details"> DAYS LEFT</figcaption>
-                                     </div>
-                                 </div>
- 
-                                 <div class="qual-gauges">
                                      <div class="c100 p{{ coreUnitsSubmittedPercent|round }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
-                                         <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
+                                         <span>{{ unitSubmitted['core']}}<small>/{{ coreUnitsCnt|length }}</small></span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>                                    
                                  </div>
  
                                  <div class="qual-gauges">
                                      <div class="c100 p{{ electiveUnitsSubmittedPercent|round }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
-                                         <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
+                                         <span>{{ unitSubmitted['elective']}}<small>/{{ electiveUnitsCnt }}</small></span>
                                          <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                      </div>
                                  </div>
@@ -146,7 +146,15 @@
                 var popup =     $('#congratulatoryPopup'), 
                     header =    $('#headerGQA'),
                     body =      $('body');
+                    inboxlink = '';
 
+                function setInboxLink() {
+                    if (isMobile.phone === true) { inboxlink = '.t-item-3-1'; }
+                    else { inboxlink = '.t-item-3-2'; }
+                }
+
+                setInboxLink();
+                
                 var tour = new Tour({
                     name: 'tour',
                     smartPlacement: true,
@@ -196,7 +204,7 @@
                         },
                         {
                             placement: 'bottom',
-                            element: ".t-item-3",
+                            element: inboxlink,
                             title: "What’s this mail thing for, you ask?",
                             content: "Check here often for notes from your Account Manager and system-generated messages."
                         },
@@ -261,21 +269,21 @@
             if ({{show_splash_screen}}) {
                 FIRST_TIME_TOUR.build();
             }
-            $('.panel-qualification').on("click", function(event){
+            // $('.panel-qualification').on("click", function(event){
 
-                 var target = $( event.target );
-                 var obj = $(this);
+            //      var target = $( event.target );
+            //      var obj = $(this);
 
-                 if(target.is('.elective-units') || target.parents('.elective-units').length > 0){
-                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/elective';
-                 }
-                 else if(target.is('.core-units') || target.parents('.core-units').length > 0){
-                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/core';
-                 }
-                 else {
-                     location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode');
-                 }
-            });
+            //      if(target.is('.elective-units') || target.parents('.elective-units').length > 0){
+            //          location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/elective';
+            //      }
+            //      else if(target.is('.core-units') || target.parents('.core-units').length > 0){
+            //          location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode')+'/core';
+            //      }
+            //      else {
+            //          location.href = '{{ app.request.baseUrl }}/qualificationDetails/'+$(this).data('coursecode');
+            //      }
+            // });
         });
     </script>
 {% endblock %}

@@ -39,6 +39,15 @@
 				display: table-cell;
 				vertical-align: middle;
 			}
+
+			.btn-message {
+				padding: 15px;
+				&:active, &:focus {
+					background-color: $gray-lighter;
+				}
+			}
+
+			.small-date { font-size: 75%; }
 		}
 
 		$width: $avatar-xxs;
@@ -98,7 +107,7 @@
 		min-width: $screen-sm-max;
 		.header-gqa-logo {
 			height: 50px;
-			margin-top: 30px;
+			margin-top: 25px;
 		}
 
 		&.compressed {
@@ -246,7 +255,7 @@
 	.header-gqa {
 		.header-gqa-logo {
 			height: 50px;
-			margin-top: 30px;
+			margin-top: 25px;
 		}
 
 		&.compressed {

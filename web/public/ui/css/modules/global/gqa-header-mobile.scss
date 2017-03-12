@@ -174,8 +174,8 @@ $zindex-menu: $zindex-navbar-fixed + 1;
 
 			> .dropdown {
 				> .dropdown-toggle {
-					padding: 18px 15px;
-					padding-left: $avatar-xxs !important;
+					padding: 20px 15px;
+					padding-left: $avatar-xxs + 5 !important;
 					display: inline-block;
 					color: white;
 

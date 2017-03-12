@@ -1,5 +1,25 @@
 $urlBase: '../img/content-loader/ldr-';
 
+
+// A nifty way of preloading our SVGs before any placeholder component is displayed
+@media screen {
+	body {
+		&:after {
+			display: block;
+			content: '';
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+			width: 1px;
+			height: 1px;
+			background-image: 
+				url(#{$urlBase}head-1.svg), url(#{$urlBase}head-2.svg), url(#{$urlBase}head-3.svg), url(#{$urlBase}head-4.svg),
+				url(#{$urlBase}content-1.svg), url(#{$urlBase}content-2.svg), url(#{$urlBase}content-3.svg),
+				url(#{$urlBase}content-1.svg), url(#{$urlBase}content-3.svg);
+		}
+	}	
+}
+
 [data-loader] {
 	&:hover {
 		cursor: progress;

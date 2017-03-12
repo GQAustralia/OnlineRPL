@@ -35,6 +35,15 @@
 	}
 }
 
+.is-mobile .m_overflow-mobile {
+	overflow: hidden;
+}
+
+.is-desktop .m_overflow-mobile,
+.is-tablet .m_overflow-mobile {
+	overflow: visible;
+}
+
 [data-toggle="toggle"] {
 	&:active, &:active * {
 		color: $brand-primary;

@@ -1,0 +1,289 @@
+@media (max-width: 360px) {
+	.panel-qualification-gauges {
+		padding-bottom: 30px;
+		.qual-gauges {
+			&:first-child {
+				float: none;
+				width: 100%;
+
+				.progress-tag progress { width: 100% !important; }
+			}
+			&:nth-child(2) {
+				float: none;
+				width: 100%;
+				margin-bottom: 1em;
+				text-align: center;
+				display: block;
+			}
+			&:nth-child(3) {
+				float: left;
+				width: 50%;
+				text-align: center;
+			}
+			&:last-child {
+				float: left;
+				width: 50%;
+				text-align: center;
+			}
+		}
+	}
+}
+
+@media (min-width: 361px) and (max-width: 567px) {
+	.panel-qualification-gauges {
+		padding-bottom: 30px;
+		.qual-gauges {
+			&:first-child {
+				float: none;
+				width: 100%;
+
+				.progress-tag progress { width: 100%; }
+			}
+			&:nth-child(2) {
+				float: none;
+				@include calc-sub-two-values(width, 100%, 109px);
+				margin-bottom: 1em;
+				text-align: center;
+				display: block;
+				padding-right: 15px;
+			}
+			&:nth-child(3), &:nth-child(4) {
+				width: auto;
+				position: absolute;
+				@include calc-add-two-values(left, 50%, 60px);
+			}
+
+			&:nth-child(3) {
+				top: 70px;
+			}
+			&:last-child {
+				top: 210px;
+			}
+		}
+	}
+}
+
+// sm-min 768px
+@media (min-width: 568px) and (max-width: 1104px) {
+	.panel-qualification-gauges {
+		.qual-gauges {
+			float: left;
+
+			&:first-child {
+				position: absolute;
+				width: 270px;
+				top: 0px;
+				left: $big-circle-width + 30;
+
+				.progress-tag progress { width: 100%; }
+			}
+			&:nth-child(2) {
+				width: $big-circle-width;
+			}
+			&:nth-child(3) {
+				margin-top: 6.4em;
+				padding-left: 30px;
+				padding-right: 15px;
+			}
+			&:last-child {
+				margin-top: 6.4em;
+				padding-left: 15px;
+				padding-right: 30px;
+			}
+		}
+	}
+}
+
+// @media (min-width: $screen-sm-min) and (max-width: 1104px) {
+// 	.panel-qualification-gauges {
+// 		padding: 15px;
+// 		.qual-gauges {
+// 			&:first-child {
+// 				float: none;
+// 				width: 100%;
+
+// 				.progress-tag progress { width: 100% !important; }
+// 			}
+// 			&:nth-child(2) {
+// 				float: none;
+// 				width: 100%;
+// 				margin-bottom: 1em;
+// 				text-align: center;
+// 				display: block;
+// 			}
+// 			&:nth-child(3) {
+// 				float: left;
+// 				width: 50%;
+// 				text-align: right;
+// 				padding-right: 30px;
+// 				margin-top: -25px;
+// 				margin-bottom: 25px;
+// 			}
+// 			&:last-child {
+// 				float: left;
+// 				width: 50%;
+// 				text-align: left;
+// 				padding-left: 30px;
+// 				padding-right: 30px;
+// 				margin-top: -25px;
+// 				margin-bottom: 25px;
+// 			}
+// 		}
+// 	}
+// }
+
+// 992px
+@media (min-width: 1105px) and (max-width: $screen-md-max) {
+	.panel-qualification-gauges {
+		padding: 15px;
+		.qual-gauges {
+			float: left;
+
+			&:first-child {
+				position: absolute;
+				top: 10px;
+				left: 245px;
+				right: 30px;
+
+				.progress-tag progress {
+					width: 100%;
+				}
+			}
+			&:nth-child(2) {
+				width: $big-circle-width;
+			}
+			&:nth-child(3) {
+				margin-top: 6.4em;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+			&:last-child {
+				margin-top: 6.4em;
+			}
+		}
+	}
+}
+
+@media (min-width: $screen-lg-min) and (max-width: 1254px){
+	.panel-qualification-gauges {
+		.qual-gauges {
+			float: left;
+
+			&:first-child {
+				position: absolute;
+				top: 20px;
+				left: 265px;
+				right: 30px;
+
+				.progress-tag progress {
+					width: 100%;
+				}
+			}
+			&:nth-child(2) {
+				width: $big-circle-width;
+			}
+			&:nth-child(3) {
+				margin-top: 6.4em;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+			&:last-child {
+				margin-top: 6.4em;
+			}
+		}
+	}
+}
+
+@media (min-width: 1255px) {
+	.panel-qualification-gauges {
+		.qual-gauges {
+			float: left;
+
+			&:first-child {
+				position: absolute;
+				top: 20px;
+				left: 280px;
+				right: 60px;
+
+				.progress-tag progress {
+					width: 100%;
+				}
+			}
+			&:nth-child(2) {
+				width: $big-circle-width;
+			}
+			&:nth-child(3) {
+				margin-top: 6.4em;
+				padding-left: 30px;
+				padding-right: 15px;
+			}
+			&:last-child {
+				margin-top: 6.4em;
+				padding-left: 15px;
+				padding-right: 30px;
+			}
+		}
+	}
+}
+
+@media (min-width: 1300px) {
+	.panel-qualification-gauges .qual-gauges:first-child .progress-tag progress {
+		width: 280px;
+	}
+}
+
+// @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+// 	.panel-qualification-gauges {
+// 		.qual-gauges {
+// 			float: left;
+
+// 			&:first-child {
+// 				position: absolute;
+// 				width: 300px;
+// 				top: 0px;
+// 				left: $big-circle-width + 100;
+// 			}
+// 			&:nth-child(2) {
+// 				width: $big-circle-width;
+// 			}
+// 			&:nth-child(3) {
+// 				margin-top: 6.4em;
+// 				padding-left: 30px;
+// 				padding-right: 15px;
+// 			}
+// 			&:last-child {
+// 				margin-top: 6.4em;
+// 				padding-left: 15px;
+// 				padding-right: 30px;
+// 			}
+// 		}
+// 	}
+// }
+
+// @media (min-width: $screen-xlg) {
+// 	.panel-qualification-gauges {
+// 		.qual-gauges {
+// 			float: left;
+
+// 			&:first-child {
+// 				position: absolute;
+// 				width: 300px;
+// 				top: 0px;
+// 				left: $big-circle-width + 100;
+// 			}
+// 			&:nth-child(2) {
+// 				width: $big-circle-width;
+// 			}
+// 			&:nth-child(3) {
+// 				margin-top: 6.4em;
+// 				padding-left: 30px;
+// 				padding-right: 15px;
+// 			}
+// 			&:last-child {
+// 				margin-top: 6.4em;
+// 				padding-left: 15px;
+// 				padding-right: 30px;
+// 			}
+// 		}
+// 	}
+// }

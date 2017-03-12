@@ -21,7 +21,7 @@
 	.panel-qualification-img {
 		background-size: cover;
 		background-repeat: no-repeat;
-		background-position: top center;
+		background-position: center center;
 		width: 100%;
 		height: $qual-card-img-height - 50;
 		position: relative;
@@ -52,6 +52,8 @@
 	    		display: inline-block;
 	    	}
 	    	margin-bottom: 15px;
+
+	    	&:last-child { margin-bottom: 0; }
 	    }
 	}
 
@@ -90,7 +92,7 @@
 		padding-left: 15px;
 		float: left;
 		font-weight: 300;
-		font-size: 1.2em;
+		font-size: 1.5em;
 
 		span {
 			display: block;
@@ -130,40 +132,25 @@
 	.panel-qualification-gauges {
 		width: 100%;
 		position: relative;
-		padding: 15px;
 
 		@include clearfix();
+
+		.progress-tag-danger .progress-details:after {
+			display: block;
+			content: '\f1f1';
+			font-family: 'Material-Design-Iconic-Font';
+			color: $brand-danger;
+			font-size: 1.6em;
+			position: absolute;
+		    top: -15px;
+		    left: 30px;
+		}
 
 		.qual-gauges {
 			position: relative;
 			display: block;
-			float: left;
 
-			&:first-child {
-				width: $big-circle-width;
-			}
-			&:nth-child(2) {
-				width: 100%;
-
-				.progress-tag-danger .progress-details:after {
-					display: block;
-					content: '\f1f1';
-					font-family: 'Material-Design-Iconic-Font';
-					color: $brand-danger;
-					font-size: 1.6em;
-					position: absolute;
-				    top: -15px;
-				    left: 30px;
-				}
-			}
-			&:nth-child(3) {
-
-			}
-			&:last-child {
-
-			}
-
-			progress { width: 100%; }
+			.c100 { display: inline-block; }
 		}
 	}
 
@@ -192,6 +179,8 @@
 	}
 }
 
+.is-mobile .panel-qualification-footer .btn { text-align: center; }
+
 .progress-big-label {
     font-size: $font-size-base;
     display: block;
@@ -210,13 +199,15 @@
 	content: 'Core Units';
 	display: block;
 	font-size: $font-size-h6;
-	font-weight: 400;
+	font-weight: 500;
 	text-transform: uppercase;
     position: absolute;
-    top: 60%;
+    top: 100%;
     text-align: center;
+    width: 100%;
     left: 0;
-    right: 0px;
+    margin-top: 10px;
+    line-height: 1.2;
     color: $gray;
     z-index: 5;
 }

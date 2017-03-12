@@ -1,8 +1,7 @@
 .is-desktop {
-    .isTablet,
-    .isMobile{
-        display: none;
-    }
+
+    .isTablet, .isMobile{ display: none; }
+
     .mail-box {
         border-collapse: collapse;
         border-spacing: 0;
@@ -94,6 +93,7 @@
             }
         }
     }
+
     .user-head {
         .inbox-avatar {
             float: left;
@@ -120,7 +120,8 @@
             }
         }
     }
-    a.mail-dropdown {
+
+    .mail-dropdown {
         background: none repeat scroll 0 0 #80d3d9;
         border-radius: 2px;
         color: #01a7b3;
@@ -142,7 +143,8 @@
             color: #fff;
         }
     }
-    ul.inbox-nav {
+
+    .inbox-nav {
         display: inline-block;
         margin: 0;
         padding: 0;
@@ -159,9 +161,11 @@
             }
         }
     }
+
     .inbox-divider {
         border-bottom: 1px solid #d5d8df;
     }
+    
     ul {
         &.inbox-nav li {
             display: inline-block;

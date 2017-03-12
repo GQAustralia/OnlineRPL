@@ -6,6 +6,14 @@ gqAus.directive('autoExpand', function ($window) {
         $(element).on('click', function(event) {
             $window.autosize.update($(this));
         });
+
+        scope.$watch(
+            function() {
+                if (element.val() !== '') {
+                    autosize.update(element);
+                }
+            }
+        );
     };
     return {
         //require: 'ngModel',

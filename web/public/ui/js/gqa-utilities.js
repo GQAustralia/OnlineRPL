@@ -401,19 +401,19 @@ var TEXTAREA_AUTOHEIGHT = {
 	update: function() {
 		var elem = $(document).find('.auto-textarea:visible');
 
-		this.temp = elem.val();
+		// this.temp = elem.val();
 
-		TEXTAREA_AUTOHEIGHT.tmr = setInterval(function(){
+		// TEXTAREA_AUTOHEIGHT.tmr = setInterval(function(){
 
-			if (TEXTAREA_AUTOHEIGHT.temp !== elem.val()) {
-				autosize.update(elem);
-				clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
-			}
-			else {
-				autosize.update(elem);
-				clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
-			}
-		},200);
+		// 	if (TEXTAREA_AUTOHEIGHT.temp !== elem.val()) {
+		// 		autosize.update(elem);
+		// 		clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
+		// 	}
+		// 	else {
+		// 		autosize.update(elem);
+		// 		clearInterval(TEXTAREA_AUTOHEIGHT.tmr);
+		// 	}
+		// },200);
 
 	},
 	build: function(){
@@ -537,6 +537,29 @@ var GLOBAL_UI = {
             $(elem).parent().removeClass('focused');
         }
     },
+    get_greeting: function() {
+		var myDate = new Date(), greeting = $('#greetingNote');
+
+		/* hour is before noon */
+		if ( myDate.getHours() < 12 )  
+		{ 
+		    greeting.text("Good morning,"); 
+		} 
+		else  /* Hour is from noon to 5pm (actually to 5:59 pm) */
+		if ( myDate.getHours() >= 12 && myDate.getHours() <= 17 ) 
+		{ 
+		    greeting.text("Good afternoon,"); 
+		} 
+		else  /* the hour is after 5pm, so it is between 6pm and midnight */
+		if ( myDate.getHours() > 17 && myDate.getHours() <= 24 ) 
+		{ 
+		    greeting.text("Good evening,"); 
+		} 
+		else  /* the hour is not between 0 and 24, so something is wrong */
+		{ 
+		    greeting.text("Welcome,"); 
+		} 
+    },
 	get_current_year: function() {
         var d = new Date(), n = d.getFullYear();
         $('#currentYear').html(n);
@@ -549,6 +572,7 @@ var GLOBAL_UI = {
 	init: function() {
 		this.handle_layout();
 		this.get_current_year();
+		this.get_greeting();
 		this.bootstrap_init();
 		// BTN_LOADER.build();
 
