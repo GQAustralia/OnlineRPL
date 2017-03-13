@@ -158,7 +158,7 @@
                                 {% for item in userIdFiles %}
                                     {% if item.status != 1 %}
                                         {% set fileSts = 1 %}
-                                        <a data-toggle="modal" data-target="#fileViewer{{item.id}}" href = "{{ amazon_link~item.path }}"><span>{{item.type.type}}</span></a>
+                                        <a data-toggle="modal" data-target="#fileViewer{{item.id}}" href = "{{ amazon_link~'user-'~userId~'/'~item.path }}"><span>{{item.type.type}}</span></a>
                                     {% endif %}
                                 {% endfor %}
                                 {% if fileSts == 0 or userIdFiles is not defined %}<span>{{no_id_files}}</span>{% endif %}                        
@@ -225,7 +225,7 @@
                                 <h4 class="modal-title">{{item.name}}</h4>
                             </div>
                             <div class="modal-body modal-body-lg"> 
-                                <img src="{{ amazon_link~item.path }}" onerror="this.onerror=null;this.src='{{ asset('public/ui/img/broken-file.svg') }}';" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
+                                <img src="{{ amazon_link~'user-'~userId~'/'~item.path }}" onerror="this.onerror=null;this.src='{{ asset('public/ui/img/broken-file.svg') }}';" style="width: 100%;" alt="{{item.name}}" title="{{item.name}}">
                             </div>
                         </div>
                     </div>
