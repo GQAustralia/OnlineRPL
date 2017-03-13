@@ -261,7 +261,6 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
             FILE_THUMBNAIL.computation_interval();
         });
         $scope.getEvidenceLibrary();
-        console.log('263')
     };
 
     $scope.getUnitEvidences = function(unitCode) {
@@ -338,7 +337,6 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }).finally(function(){
             FILE_THUMBNAIL.computation_interval();
         });
-        console.log('338');
         $scope.operatingSys = getMobileOperatingSystem();
     };
 
