@@ -134,7 +134,7 @@
    
     <script type="text/javascript">
         var FIRST_TIME_TOUR = {
-            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><button class="btn btn-success pull-right" data-role="next"><span id="buttonText"></span></button><button class="btn btn-transparent pull-right btn-end-tour" data-role="end">End Tour</button><button class="btn btn-success pull-right btn-last-tour" data-role="end">Alright</button></div></div>',
+            template: '<div class="popover tour"><div class="arrow"></div><h4 class="popover-title"></h4><div class="popover-content"></div><div class="popover-navigation"><button class="btn btn-success btn-sm pull-right" data-role="next"><span id="buttonText"></span></button><button class="btn btn-transparent pull-right btn-end-tour btn-sm" data-role="end">End Tour</button><button class="btn btn-success pull-right btn-last-tour btn-sm" data-role="end">Alright</button></div></div>',
             header: $('#headerGQA'),
             counter: 0,
             getButtonText: function() {
@@ -164,13 +164,25 @@
                     backdropPadding: 15,
                     template: FIRST_TIME_TOUR.template,
                     onStart: function() {
-                        FIRST_TIME_TOUR.header.find('[data-toggle="dropdown"]').on('click', function(event) {
+                        FIRST_TIME_TOUR.header.find('.nav-links a').on('click', function(event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        });
+
+                        FIRST_TIME_TOUR.header.find('.btn-home').on('click', function(event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        });
+
+                        FIRST_TIME_TOUR.header.find('[data-toggel="dropdown"]').on('click', function(event) {
                             event.preventDefault();
                             event.stopPropagation();
                         });
                     },
                     onEnd: function(tour) {
-                        FIRST_TIME_TOUR.header.find('[data-toggle="dropdown"]').unbind('click');
+                        FIRST_TIME_TOUR.header.find('.nav-links a').unbind('click');
+                        FIRST_TIME_TOUR.header.find('.btn-home').unbind('click');
+                        FIRST_TIME_TOUR.header.find('[data-toggel="dropdown"]').unbind('click');
 
                         FIRST_TIME_TOUR.hide_backdrop();
                         body.removeClass('tour-enabled').removeClass('mobile-modify-header');

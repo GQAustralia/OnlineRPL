@@ -2,9 +2,10 @@ gqAus.directive('autoExpand', function ($window) {
     var link = function (scope, element, attrs, ngModelCtrl) {
         $window.autosize($(element));
         $window.autosize.update($(element));
-
+        
         $(element).on('click', function(event) {
             $window.autosize.update($(this));
+            
         });
 
         scope.$watch(

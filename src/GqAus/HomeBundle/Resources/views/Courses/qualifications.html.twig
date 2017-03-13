@@ -77,14 +77,14 @@
                         <div class="qual-gauges-group">
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p{{ coreUnitsSubmittedPercent }} small core-units {% if coreUnitsSubmittedPercent == 100 %} green {% elseif coreUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
-                                    <span>{{ unitSubmitted['core']}}/{{ coreUnitsCnt|length }}</span>
+                                    <span>{{ unitSubmitted['core']}}<small>/{{ coreUnitsCnt|length }}</small></span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>                                    
                             </div>
 
                             <div class="qual-gauges qual-spacing">
                                 <div class="c100 p{{ electiveUnitsSubmittedPercent }} small elective-units {% if electiveUnitsSubmittedPercent == 100 %} green {% elseif electiveUnitsSubmittedPercent < 50 %} orange {% else %} gray {% endif %}">
-                                    <span>{{ unitSubmitted['elective']}}/{{ electiveUnitsCnt }}</span>
+                                    <span>{{ unitSubmitted['elective']}}<small>/{{ electiveUnitsCnt }}</small></span>
                                     <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                 </div>
                             </div>

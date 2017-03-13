@@ -4,8 +4,8 @@
 {% block title %}GQ - RPL Qualification{% endblock %}
 {% block ngtitle %}pageTitle{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
-<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}">
+{# <link rel="stylesheet" href="{{ asset('public/css/pages/all/modal.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/pages/all/profile.css')}}"> #}
 <link href="{{ asset('public/css/select.min.css') }}" rel="stylesheet" /> 
 <link href="{{ asset('public/css/package_rules.css')}}" rel="stylesheet" />
 {% endblock %}
@@ -29,24 +29,36 @@
                     <span class="hidden" aria-readonly>{{ courseDetails.courseName }}</span>
                 </div>
                 <div class="panel-heading">
-                    <h3 class="h3 qual-title"><small>{{ courseDetails.courseCode }}</small><br>{{ courseDetails.courseName }}</h3>
-                    <h4 class="text-uppercase unit-label">{{ unitCode }}</h4>
+                    <h3 class="h3 qual-title">
+                        <small>{{ courseDetails.courseCode }}</small><br>{{ courseDetails.courseName }}<br>
+                        <small class="text-uppercase unit-label">{{ unitCode }}</small><small class="unit-label"> - Unit Name</small>
+                    </h3>
                 </div>
             </div>
         </div>
         <div class="container container-right-sidebar-main" ng-init="qualificationPage = '';courseCode = '{{ courseDetails.courseCode }}';applicantId = '{{ userId }}';role = '{{ loggedInUserRole }}';initUnitDetailsPage('{{ unitCode }}');unitCode = '{{unitCode}}'">
             <section class="section-sidebar section-sidebar-compressed">
-                <div class="panel panel-default" ng-if="unitStatus != '' && role ==='candidate'">
+                <div class="panel panel-default">
+
+                    <div class="panel-body" data-loader="heading" ng-if="!IsLoaded && unitStatus != '' && role ==='candidate'">
+                        <section class="loader loading">
+                            <i class="msk1"></i>
+                            <i class="msk2"></i>
+                            <i class="msk3"></i>
+                        </section>
+                    </div>
+
                     <div class="panel-body">
-                        <h4>Unit Status<br><small>More description about this section</small></h4>
+                        <h4>Unit Status</h4>
                         <span class="label {[{ getStatusClass(unitStatus)}]}">{[{unitStatus}]}</span>
                     </div>
                 </div>
+
                 <div class="panel panel-default" ng-if="role !== 'candidate'">
                     <div class="panel-body">
                         <h4 class="panel-heading-text">Unit Check Result</h4>
                         <div class="dropdown" style="width: 100%;">
-                            <button data-toggle="dropdown" type="button" class="btn btn-default"><span>Choose result</span></button>
+                            <button data-toggle="dropdown" type="button" class="btn btn-default btn-sm"><span>Choose result</span></button>
                             <ul class="dropdown-menu pull-left">
                                  {% if ('ROLE_FACILITATOR' in userRole) %}
                                      {% if (getUnitStatusList is defined) %}
@@ -66,9 +78,10 @@
                         <button type="button" class="btn btn-link text-uppercase" id="{[{courseDetails.id}]}" style="margin-top: 15px; padding: 0;" data-placement="left" datepicker ng-model="datepicker" data-toggle="popover"><i class="zmdi zmdi-calendar-note zmdi-hc-lg zmdi-hc-fw"></i> Add task</button>
                     </div>
                 </div>
+
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h4>About this Unit <br><small>More description about this section</small></h4>
+                        <h4>About this Unit</h4>
                         <div class="list-about-units">
                             <a class="btn-link btn-block" href="#" data-target="#" ng-click="show_details('elements','Elements and performance criteria')">
                                 Elements &amp; Performance Criteria
@@ -87,7 +100,7 @@
             <section class="section-main">
                 <div class="panel panel-default panel-upload-evidence">
 
-                    <div class="panel-body" data-loader="true" ng-if="!IsLoaded">
+                    <div class="panel-body" data-loader="content" ng-if="!IsLoaded">
                         <section class="loader loading">
                             <i class="msk1"></i>
                             <i class="msk2"></i>
@@ -95,7 +108,14 @@
                         </section>
                     </div>
 
-                    <div class="panel-body" ng-show="IsLoaded">
+                    <div class="panel-body" ng-if="IsLoaded">
+
+                        <div class="item-has-icon item-qual-alert" ng-if="isSubmitted() && role !== 'facilitator'" style="margin-top: 0;">
+                            <i class="icon zmdi zmdi-lock-outline zmdi-hc-2x" style="line-height: 0.5"></i>
+
+                            <div class="item"><strong>UNIT LOCKED</strong><p>This unit has already been submitted for assessment. Kindly contact your Account Manager should you have any concerns.</p></div>
+                        </div>
+
                         <div class="panel-accordion" role="tablist" aria-multiselectable="false">
                             
                             <!-- Upload Evidences -->
@@ -353,7 +373,7 @@
                     <h4 class="modal-title">{[{details.title}]}</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="btn-auto-group btn-group">
+                    <div class="btn-auto-group btn-group btn-group-xs">
                         <button type="button" class="btn btn-default" ng-if="operatingSys !== 'iOS'" ng-click="printElective(details)"><i class="zmdi zmdi-print zmdi-hc-lg zmdi-hc-fw"></i> Print</button>
                         <button type="button" class="btn btn-default" ng-click="downloadElective(details)"><i class="zmdi zmdi-download zmdi-hc-lg zmdi-hc-fw"></i> Download PDF</button>
                     </div>

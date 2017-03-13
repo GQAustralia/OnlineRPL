@@ -67,7 +67,7 @@
 		&:before {
 			content: '\f158';
 			display: block;
-			background: rgba(0, 0, 0, 0.2);
+			background: rgba(0, 0, 0, 0.06);
 			border-radius: 2px;
 			padding: 2px 5px;
 			text-transform: uppercase;
@@ -85,10 +85,10 @@
 
 		&:after {
 			content: '';
-			top: 35px;
-			right: -10px;
-			left: -10px;
-			bottom: 10px;
+			top: 0;
+			right: 0;
+			left: -5px;
+			bottom: 0;
 			border: 1px solid $gray-lighter;
 			background-color: lighten($gray-lighter,6%);
 			border-radius: $border-radius-base;
@@ -98,9 +98,6 @@
 
 		&:not(locked):hover {
 			cursor: text;
-			textarea {
-
-			}
 
 			&:before {
 				// top: -5px;
@@ -120,7 +117,14 @@
 	}	
 	&.edit {
 	}
-
+	&.locked {
+		&,&:hover {
+			cursor: default;
+			&:before, &:after {
+				display: none;
+			}
+		}
+	}
 	.click-to-edit-actions {
 		margin-top: 15px;
 	}

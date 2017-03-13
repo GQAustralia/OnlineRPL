@@ -68,6 +68,32 @@
 	width: 100% !important;
 }
 
+.item-has-icon {
+	position: relative;
+	.icon { position: absolute; top: 0; left: 0; }
+	.item {
+		margin: 0;
+		padding-left: 35px;
+		display: block;
+
+		h4 { margin: 0; margin-bottom: 5px;}
+		p { display: block; clear: both; white-space: normal; font-size: $font-size-base; margin: 0;}
+	}
+
+	&.item-qual-alert {
+	    margin-bottom: 40px;
+	    margin-top: 50px;
+    	padding: 12px 15px;
+   		border-radius: $border-radius-base;
+    	background: #f3f3f3;
+    	.icon {
+		    top: 20px;
+		    left: 15px;
+    	}
+		p { line-height: 1.2; }
+	}
+}
+
 .dropdown-static-header {
     padding: 5px 30px;
     font-size: 18px;
@@ -237,7 +263,7 @@
 //Extend toggle visibility of angular ng-show, ng-hide, ng-if
 body {
 	.container-qual-page ~ .container {
-		display: none !important;
+		// display: none !important;
 	}
 }
 

@@ -10,6 +10,15 @@
                 <button type="button" class="btn btn-sm btn-panel-close" ng-click="closeSelected()"><i class="zmdi zmdi-hc-lg zmdi-hc-fw"></i> <span>Back</span></button>
             </div>
             <div class="panel-body">
+
+                {% if ('ROLE_APPLICANT' in roles) %}
+                <div class="item-has-icon item-qual-alert" ng-if="isSubmitted()">
+                    <i class="icon zmdi zmdi-lock-outline zmdi-hc-2x" style="line-height: 0.5"></i>
+
+                    <div class="item"><strong>UNIT LOCKED</strong><p>This unit has already been submitted for assessment. Kindly contact your Account Manager should you have any concerns.</p></div>
+                </div>
+                {% endif %}
+
                 <div class="panel-accordion" role="tablist" aria-multiselectable="false">
                     
                     <!-- About this Unit -->
@@ -297,8 +306,8 @@
                     <!-- Notes from Account Manager -->
                     {% if ('ROLE_APPLICANT' in roles) %}
                             <div class="btn-auto-group" ng-if="!isSubmitted()">
-                                    <button class="btn btn-default" ng-click="saveSelfAssessmentNotes();">Save</button>
-                                    <button class="btn btn-success" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit this for Assessment</button>
+                                <button class="btn btn-default text-uppercase" ng-click="saveSelfAssessmentNotes();">Save for later</button>
+                                <button class="btn btn-success text-uppercase" ng-click="submitConfirm();" ng-disabled="unitEvidences.length === 0 || ((unitEvidences| filter:{type: '!text'}).length === 0 && (selfAssessment.content|countWord) < 50)">Submit</button>
                             </div>
                     {% endif %}
                     {% if ('ROLE_FACILITATOR' in roles) %}

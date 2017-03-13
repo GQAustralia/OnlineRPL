@@ -56,7 +56,9 @@
 	}
 
 	&.tour-enabled {
+		overflow: hidden;
 		.header-gqa { z-index: 2000; @include transition(none); }
+		.btn-home { &, &:hover { cursor: default; pointer-events: none; } }
 		.header-gqa-logo { @include opacity(0.2); @include transition(none); }
 		.nav-links li {
 			&:hover:after {

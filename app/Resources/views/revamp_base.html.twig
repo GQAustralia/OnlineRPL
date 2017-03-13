@@ -69,7 +69,7 @@
                 <div class="header-gqa-logo">
                 
              {% else %}
-                    <a href="{{ baseUrl }}/overview">
+                    <a href="{{ baseUrl }}/overview" class="btn-home">
                     <div class="header-gqa-logo">
              {% endif %}
                 <img src="{{ asset(baseUrl~'/public/ui/img/gqa-online-rpl-inverse.svg')}}" alt="Get Qualified Australia">
@@ -98,13 +98,13 @@
                         </li>
                         {% endif %}
                         {% if ('ROLE_APPLICANT' in roles)  %}
-                        <li class="dropdown">
+                        <li class="dropdown dropdown-qualifications">
                             <a href='#' class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="t-item-1"><i class="zmdi zmdi-view-dashboard zmdi-hc-lg zmdi-hc-fw"></i> Dashboard</span>
+                                <span class="t-item-1"><i class="zmdi zmdi-graduation-cap zmdi-hc-lg zmdi-hc-fw"></i> Qualifications</span>
                                 <i class="zmdi zmdi-caret-down zmdi-hc-lg"></i>
                             </a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="{{ baseUrl }}/overview"><span class="h4">Overview <br><small>Summary of enrolled qualifications</small></span></a></li>
+                                <li><a href="{{ baseUrl }}/overview"><span class="h4">Dashboard <br><small>Summary of enrolled qualifications</small></span></a></li>
                                 <li class="divider"></li>
                                 <li class="sub-menu">
                                     <h4 class="h4 sub-menu-title">Your Qualifications</h4>
@@ -192,16 +192,26 @@
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href='{{ baseUrl }}/faq' target="_blank">
-                                        <i class="zmdi zmdi-book zmdi-hc-lg"></i>
-                                        <span class="h4">Help and FAQs <br><small>Go to your how-to guide and FAQs for the Online RPL.</small></span>
+                                    <a href='{{ baseUrl }}/faq'>
+                                        <div class="item-has-icon">
+                                            <i class="icon zmdi zmdi-pin-help zmdi-hc-2x"></i>
+                                            <div class="item">
+                                                <h4>Help and FAQs</h4>
+                                                <p>Go to your how-to guide and FAQs for the Online RPL.</p>
+                                            </div>
+                                        </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href='{{ baseUrl }}/feedback' target="_blank">
-                                        <i class="zmdi zmdi-comments zmdi-hc-lg"></i>
-                                        <span class="h4">Tell us your feedback <br><small>Do you have comments about the site? <br>Tell us, we're listening.</small></span>
+                                    <a href='{{ baseUrl }}/feedback'>
+                                        <div class="item-has-icon">
+                                            <i class="icon zmdi zmdi-comments zmdi-hc-2x"></i>
+                                            <div class="item">
+                                                <h4>Tell us your feedback</h4>
+                                                <p>Do you have comments about the site? <br>Tell us, we're listening.</p>
+                                            </div>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>

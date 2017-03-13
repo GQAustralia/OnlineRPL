@@ -47,7 +47,7 @@
 				}
 			}
 
-			.small-date { font-size: 75%; }
+			.small-date { font-size: 75%; color: $gray-light !important; }
 		}
 
 		$width: $avatar-xxs;
@@ -401,5 +401,13 @@
 
 	.btn-navicon-gqa {
 		display: none;
+	}
+
+	.dropdown-help .dropdown-menu {
+		width: 310px;
+	}
+
+	.dropdown-qualifications {
+		.dropdown-menu .sub-menu a { padding: 10px 15px; }
 	}
 }
