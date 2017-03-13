@@ -3,8 +3,8 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     $scope.IsLoadedEvidences = false;
     $scope.pageStats = {
        evidenceEdit:false,
-       evidenceView:'card',
-       libraryView:'card',
+       evidenceView:'list',
+       libraryView:'list',
        evidenceFiles:{},
        isLibrary:false
     };
@@ -64,11 +64,16 @@ gqAus.controller('userprofileCtlr', function ($rootScope, $scope, $window, _, Aj
     
     $scope.getEvidenceLibrary = function(){
         AjaxService.apiCall("units/getEvidenceLibrary", {}).then(function (data) {
+            // Re-init collapse UI
+           CONTROL_COLLAPSE.init();
            $scope.allEvidences = data;
            $scope.IsLoadedEvidences = true;
            $scope.evidences = data;
+           
         }, function (error) {
             console.log(error);
+        }).finally(function(){
+            FILE_THUMBNAIL.computation_interval();
         });
     };
     
