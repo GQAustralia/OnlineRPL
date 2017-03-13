@@ -1,0 +1,35 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: onlinerpl_db
+    database_user: root
+    database_password: mysql@dm1n23
+    mailer_transport: smtp
+    mailer_host: smtp.office365.com
+    mailer_user: rpl@gqaustralia.edu.au
+    mailer_password: Sienna17@
+    mailer_encryption: tls
+    mailer_port: 587
+    mailer_auth_mode: login
+    locale: en
+    secret: 545bda481237b37294ef13cb02f2f6b9e9c8082e
+    applicationUrl: 'http://rpl.gqaustralia.com.au/'
+    S3UploadUrl: 'http://stg.gqaustralia.com.au/onlinerplupload/server.php'
+    amazon_aws_key: AKIAIHDA2MG5TIKGGTTQ
+    amazon_aws_secret_key: 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
+    amazon_s3_base_url: 'https://s3-ap-southeast-2.amazonaws.com/onlinerplevidences/'
+    amazon_s3_bucket_name: onlinerplevidences
+    apiUrl: 'http://api.gqaus.com.au/web/app_dev.php/api/v1/'
+    apiAuthUsername: stgaccess
+    apiAuthPassword: u9FGDU8K
+    maxFileSize: '3115870208'
+    fromEmailAddress: rpl@gqaustralia.edu.au
+    pagination_limit_page: 10
+    filefield.load_form_template: false
+    tokbox_key: 45691252
+    tokbox_secret_key: 86b96b1afee4dc9fb9bb999ee7b965b4ca8c600e
+    aws_queue_name: CRMInboundMessage
+    rto_workspan: 14
+    rpl_support_mail: rplsupport@gqaustralia.edu.au
