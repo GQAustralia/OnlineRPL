@@ -46,8 +46,8 @@
 		yepnope({
 		  test : (!Modernizr.input.list || (parseInt($.browser.version) > 400)),
 		  yep : [
-		      'public/js/data-list/jquery.relevant-dropdown.js',
-					'public/js/data-list/load-fallbacks.js'
+		      "{{ asset('public/js/data-list/jquery.relevant-dropdown.js') }}",
+              "{{ asset('public/js/data-list/load-fallbacks.js') }}"
 		  ]
 		});
 	</script>

@@ -657,6 +657,10 @@ class CoursesController extends Controller {
                 $note = $params['note'];
                 $applicantId = $params['applicantId'];
                 $results = $this->get('NotesService')->saveCandidateNotes($applicantId, $courseCode, $unitCode, $note);
+                if ($results != 'error') {
+                    $messageSubject = 'Feedback from your Account Manager on course code: '.$courseCode.' Unit: '.$unitCode;
+                    $this->get("UserService")->sendMessagesInbox($applicantId, $userId, $messageSubject, $params['note'], $unitCode, 0, $courseCode, 1);
+                }
             }
         }
 

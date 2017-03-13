@@ -25,6 +25,6 @@
         <field name="new" type="string" column="is_new" length="1" nullable="false"/>
         <field name="systemGenerated" type="string" column="is_system_gen" length="1" nullable="false"/>
         <field name="draft" type="string" column="is_draft" length="1" nullable="false"/>
-        
+        <field name="isNotes" type="string" column="is_notes" length="1" nullable="false"/>
     </entity>
 </doctrine-mapping>

@@ -2084,6 +2084,10 @@ class UserService {
             $query->andWhere("m.flagged='1'");
         }
 
+        if ($type == 'notes') {
+            $query->andWhere("m.isNotes='1'");
+        }
+
         if (!empty($searchCourseCode)) {
             
         				$query->andWhere("m.courseCode = '".$searchCourseCode."'");
@@ -2139,12 +2143,13 @@ class UserService {
      */
     public function saveMessageData($sentuser, $curuser, $msgdata) {
     			
-    				if (isset($msgdata['id'])) {
-    								$msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($msgdata['id']);
-    				}
-    				else {
-    					$msgObj = new Message();
-    				}
+        if (isset($msgdata['id'])) {
+            $msgObj = $this->em->getRepository('GqAusUserBundle:Message')->find($msgdata['id']);
+        }
+        else {
+            $msgObj = new Message();
+            $msgObj->setNew(1);
+        }
         $msgObj->setInbox($sentuser);
         $msgObj->setSent($curuser);
         $msgObj->setSubject($msgdata['subject']);
@@ -2168,8 +2173,6 @@ class UserService {
         }
         if (isset($msgdata['new'])) {
             $msgObj->setNew($msgdata['new']);
-        } else {
-            $msgObj->setNew(0);
         }
 
         if (isset($msgdata['systemGenerated'])) {
@@ -2182,6 +2185,12 @@ class UserService {
             $msgObj->setDraft($msgdata['draft']);
         } else {
             $msgObj->setDraft(0);
+        }
+
+        if (isset($msgdata['is_notes'])) {
+            $msgObj->setIsNotes($msgdata['is_notes']);
+        } else {
+            $msgObj->setIsNotes(0);
         }
 
         $this->em->persist($msgObj);
@@ -2499,11 +2508,11 @@ class UserService {
      * @param string $message
      * @param string $unitId
      */
-    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId = '', $systemGen = 0, $courseCode = '') {
+    public function sendMessagesInbox($toUserId, $fromUserId, $subject, $message, $unitId = '', $systemGen = 0, $courseCode = '', $is_notes = 0) {
 
         $inbox = $this->getUserInfo($toUserId);
         $sent = $this->getUserInfo($fromUserId);
-        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '', 'systemGenerated' => $systemGen, 'courseCode' => $courseCode);
+        $msgInfo = array('subject' => $subject, 'message' => $message, 'unitId' => $unitId, 'replymid' => '', 'systemGenerated' => $systemGen, 'courseCode' => $courseCode, 'is_notes' => $is_notes);
         $this->saveMessageData($inbox, $sent, $msgInfo);
 
         //@todo send message to queue

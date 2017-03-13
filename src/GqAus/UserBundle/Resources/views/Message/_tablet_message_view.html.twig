@@ -76,10 +76,10 @@
                 <aside class="message-thread" ng-hide="!viewMsgThread">
                     <article class="message-thread-header">
                         {[{messageThread.viewMsg.subject}]}
-                        <i class="zmdi zmdi-mail-reply" ng-hide="hideReplyButton" ng-click="hideReplyButton = true"></i>
+                        <i class="zmdi zmdi-mail-reply" ng-hide="hideReplyButton || messageThread.viewMsg.systemGenerated == 1" ng-click="hideReplyButton = true"></i>
                         <i class="zmdi zmdi-flag" ng-class="{'flagged': messageThread.viewMsg.flagged == 1}"></i>
                     </article>
-                    <section class="message-compose" id="msgReply" ng-hide="!hideReplyButton">
+                    <section class="message-compose" id="msgReply" ng-hide="!hideReplyButton || messageThread.viewMsg.systemGenerated == 1">
                         <div class="form-group">
                             <label for="recipient">Recipient</label>
                             <!--<input type="text" id="recipient" class="form-control" placeholder="To Whom are you sending this to ?"  disabled value="{[{ messageThread.viewMsg.msgFrm.name }]}">-->

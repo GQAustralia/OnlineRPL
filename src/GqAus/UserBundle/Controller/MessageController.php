@@ -162,6 +162,7 @@ class MessageController extends Controller
             case 'flagged':
             case 'messages':
             case 'system':
+            case 'notes':
             default:
                 $results = $userService->getMessages($userid, $page, $type, $searchCourseCode);
         }
@@ -202,6 +203,7 @@ class MessageController extends Controller
                 $messageArr['is_new'] = $msgObj->getNew();
                 $messageArr['systemGenerated'] = $msgObj->getSystemGenerated();
                 $messageArr['courseCode'] = $msgObj->getCourseCode();
+                $messageArr['is_notes'] = $msgObj->getIsNotes();
 
                 $roleNamesArr = ['ROLE_FACILITATOR' => 'Account Manager',
                                 'ROLE_MANAGER' => 'Supervisor',
@@ -429,12 +431,12 @@ class MessageController extends Controller
 
                     $type = $params['type'];
                     if ($type == 'draft') {
-                                    $msgdata['draft'] = 1;
-                                    $msgdata['new'] = 0;
+                        $msgdata['draft'] = 1;
+                        $msgdata['new'] = 0;
                     }
                     else {
-                                    $msgdata['new'] = 1;
-                                    $msgdata['draft'] = 0;
+                        $msgdata['new'] = 1;
+                        $msgdata['draft'] = 0;
                     }
 
                     if (isset($params['id'])) {

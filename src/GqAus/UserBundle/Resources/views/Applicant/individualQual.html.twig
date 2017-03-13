@@ -164,7 +164,8 @@
                 </div>
                 <div class="modal-body">
                     {% for key , statusObj in courseStatus %}
-                        <input type="radio" ng-model="courseStatus" {% if statusObj.Factive == 0 %} disabled {% endif %} class="custom-input" {% if key == courseObj.courseStatus %} checked {% endif %} name="qual_statuses" id="status_{{key}}" value="{{key}}"><label for="status_{{key}}"  {% if statusObj.Factive == 0 %} disabled {% endif %} >{{statusObj.status }}</label>
+                        <input type="radio" ng-model="courseStatus" {% if statusObj.Factive == 0 %} disabled {% endif %} class="custom-input" {% if key == courseObj.courseStatus %} checked {% endif %} name="qual_statuses" id="status_{{key}}" value="{{key}}">
+                        <label for="status_{{key}}"  {% if statusObj.Factive == 0 %} disabled {% endif %} >{{statusObj.status }}</label>
                     {% endfor %}
                 </div>
                 <div class="modal-footer">

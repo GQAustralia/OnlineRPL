@@ -11,7 +11,7 @@
                 <li> <a href="#" ng-class="{'active': msgText == 'Inbox'}" ng-click="msgType = 'all';paginator.currentPage=1;msgText='Inbox';showComposeMsg=false;getMessages()"><i class="zmdi zmdi-inbox"></i> Inbox <span class="label label-danger pull-right" ng-hide="unreadCnt <= 0">{[{unreadCnt}]}</span></a>
                     <ul>
                     
-                        <li><a href="#" ng-class="{'active': msgText == msgSegregationText}" ng-repeat="msgSegregationText in messageSegregationArr[role]" ng-click="setMessageType(msgSegregationText);showComposeMsg=false;paginator.currentPage=1;getMessages()"><!--<i class="zmdi zmdi-email"></i>--> {[{msgSegregationText}]} </a></li>
+                        <li><a href="#" ng-class="{'active': msgText == msgSegregationText}" ng-repeat="(className,  msgSegregationText) in messageSegregationArr[role]" ng-click="setMessageType(msgSegregationText);showComposeMsg=false;paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-{[{className}]}"></i> {[{msgSegregationText}]} </a></li>
                         <!--<li><a href="#" ng-click="msgType = 'messages';msgText='Messages';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-email"></i> Messages </a></li>
                         <!--<li><a href="#"><i class="zmdi zmdi-file"></i> Notes </a></li>
                         <li><a href="#" ng-click="msgType = 'system';msgText='System';paginator.currentPage=1;getMessages()"><i class="zmdi zmdi-laptop"></i> System </a></li>-->
@@ -25,7 +25,7 @@
         <aside class="lg-side">
             <section class="inbox-list" ng-hide="viewMsgThread || showComposeMsg">
                 <div class="inbox-head">
-                    <h3>{[{msgText}]}</h3>
+                    <h3>Inbox</h3>
                     <select ng-model="searchCourseCode" ng-change="getMessages();">
                         <option value="">Show....</option>
                         {% for courseArr in coursesList %} 
@@ -69,6 +69,7 @@
                                 <td class="view-message" ng-click="displayMsg(msg.id, msg.read);">
                                     <p class="message-subject">
                                         <span class="label label-success" ng-if="msg.is_new == 1 && msgType != 'sent'">New</span> 
+                                        <span class="label label-danger" ng-if="msg.is_notes == 1">Notes</span>
                                         <span class="label label-info"  ng-if="msg.systemGenerated == 1">System</span>
                                         {[{msg.subject}]}
                                     </p>
@@ -77,7 +78,7 @@
                                 <td class="view-message  inbox-small-cells" ng-hide="msgType == 'draft' || msgType == 'sent'"><i class="zmdi zmdi-flag" ng-class="{'flagged': msg.flagged == 1}" ng-click="flaggMsg(msg.id, msg.flagged);"></i></td>
                                 <td class="view-message  text-right" ng-click="showReplyMsg(msg.id, msg.read);"> 
                                     <span class="date-stamp">{[{msg.created.date}]}</span> <span class="time-stamp">{[{msg.created.time}]}</span> 
-                                    <span class="quick-reply"><i class="zmdi zmdi-comment-alt-text"></i></span>
+                                    <span class="quick-reply" ng-if="msg.systemGenerated != 1 && msg.is_notes != 1"><i class="zmdi zmdi-comment-alt-text"></i></span>
                                 </td>
                             </tr>
                         </tbody>
@@ -89,10 +90,10 @@
             <section class="message-thread"  ng-hide="!viewMsgThread || showComposeMsg">
                 <article class="message-thread-header">
                     {[{messageThread.viewMsg.subject}]}
-                    <i class="zmdi zmdi-mail-reply collapsed" ng-hide="hideReplyButton" ng-click="hideReplyButton = true"></i>
+                    <i class="zmdi zmdi-mail-reply collapsed" ng-hide="hideReplyButton || messageThread.viewMsg.systemGenerated == 1  || messageThread.viewMsg.is_notes == 1" ng-click="hideReplyButton = true"></i>
                     <i class="zmdi zmdi-flag" ng-class="{'flagged': messageThread.viewMsg.flagged == 1}"></i>
                 </article>
-                <section class="message-compose clearfix" id="msgReplyDesktop" ng-hide="!hideReplyButton">
+                <section class="message-compose clearfix" id="msgReplyDesktop" ng-hide="!hideReplyButton || messageThread.viewMsg.systemGenerated == 1">
                     <div class="form-group">
                         <label for="recipient">Recipient</label>
                         <input type="text" id="recipient" class="form-control" placeholder="To Whom are you sending this to ?" disabled value="{[{ messageThread.viewMsg.msgFrm.name }]}" data-to-id="{[{ messageThread.viewMsg.msgFrm.id }]}">
@@ -142,14 +143,10 @@
                         <label for="recipient">Recipient</label>
                         <input type="text" id="recipient" name="recipient" class="form-control" ng-model="newMsg.userName" placeholder="To Whom are you sending this to ?" list="names">
                         <datalist id="names" >
-                            <select>
                             {% for username in to_users %}
                             {% set roleArr = username[0].getRoles()[0] | split('_') %}
-
                             <option  data-id="{{username[0].getId()}}" data-role="{{roleArr[1]}}" value="{{username[1]}}">{{roleArr[1]}}</option>
-
                             {% endfor %}
-                            </select>
                         </datalist>
                         <input type="hidden" id="recipient-hidden" ng-model="newMsg.to" list="names" value="">
                     </div>

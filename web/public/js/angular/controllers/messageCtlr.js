@@ -14,14 +14,13 @@ gqAus.controller('messageCtlr', function ($rootScope, $scope, $window, _, AjaxSe
     $scope.hideReplyButton = false;
     $scope.showComposeMsg = false;
     $scope.newMsg = {};
-    $scope.messageSegregationArr = {
-             'ROLE_APPLICANT' : ['Mesages', 'System'],
-             'ROLE_FACILITATOR' : ['Applicant', 'Assessor', 'RTO'],
-             'ROLE_ASSESSOR' : ['Account Manager'],
-             'ROLE_RTO' : ['Account Manager'],
-             'ROLE_MANAGER' : ['Applicant', 'Account Manager']
-    };
-    
+    var tmpMessagesArr = [];
+    tmpMessagesArr['ROLE_APPLICANT'] = {'email': 'Mesages', 'file': 'Notes', 'laptop': 'System'};
+    tmpMessagesArr['ROLE_FACILITATOR'] = {'email': 'Applicant', 'email': 'Assessor', 'email': 'RTO'};
+    tmpMessagesArr['ROLE_ASSESSOR'] = {'email': 'Account Manager'};
+    tmpMessagesArr['ROLE_RTO'] = {'email': 'Account Manager'};
+    tmpMessagesArr['ROLE_MANAGER'] = {'email': 'Applicant', 'email': 'Account Manager'};
+    $scope.messageSegregationArr = tmpMessagesArr;
     $rootScope.pageTitle = "GQ - Recognition of Prior Learning - Messages";
     $scope.searchCourseCode = '';
     $scope.newMsgCourseObj = {};

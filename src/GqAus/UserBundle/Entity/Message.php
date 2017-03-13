@@ -101,6 +101,11 @@ class Message
      */
     private $draft;
 
+     /**
+     * @var string
+     */
+    private $isNotes;
+
     /**
      * Set subject
      *
@@ -459,9 +464,9 @@ class Message
     }
 
     /**
-     * Set read
+     * Set Draft
      *
-     * @param string $read
+     * @param string $draft
      * @return Message
      */
     public function setDraft($draft)
@@ -481,4 +486,26 @@ class Message
         return $this->draft;
     }
 
+    /**
+     * Set isNotes
+     *
+     * @param string $isNotes
+     * @return Message
+     */
+    public function setIsNotes($isNotes)
+    {
+        $this->isNotes = $isNotes;
+
+        return $this;
+    }
+
+    /**
+     * Get Draft
+     *
+     * @return string
+     */
+    public function getIsNotes()
+    {
+        return $this->isNotes;
+    }
 }

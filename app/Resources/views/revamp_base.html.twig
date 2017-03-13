@@ -155,7 +155,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-messaging">
-                                                    <div class="clearfix">{% if unreadwMsg.getSystemGenerated()  == 1 %}<span class="label label-default pull-left">System</span>{% endif %}<span class="text-muted pull-right small-date">{{user_service.formatMsgTime(unreadwMsg.getCreated())}}</span></div>
+                                                    <div class="clearfix">
+                                                        {% if unreadwMsg.getSystemGenerated()  == 1 %}<span class="label label-info pull-left">System</span>{% endif %}
+                                                        {% if unreadwMsg.getIsNotes()  == 1 %}<span class="label label-danger pull-left">Notes</span>{% endif %}
+                                                        <span class="text-muted pull-right small-date">{{user_service.formatMsgTime(unreadwMsg.getCreated())}}</span></div>
                                                     <label>{{unreadwMsg.sent.getUserName()}}</label>
                                                     <p class="break-word">{{unreadwMsg.getSubject()}}</p>
                                                 </div>
