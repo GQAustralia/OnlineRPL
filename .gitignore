@@ -13,7 +13,6 @@
 !var/sessions/.gitkeep
 
 # Parameters
-/app/config/parameters.yml
 /app/config/parameters.ini
 
 # Managed by Composer
@@ -42,3 +41,4 @@
 nbproject/
 *.css.map
 .sass-cache
+/app/config/parameters.yml
