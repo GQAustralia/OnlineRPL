@@ -1357,5 +1357,30 @@ class CoursesService {
         $courseObj = $query->getQuery()->getResult();
         return $courseObj;
     }
+    
+    /**
+     * A function to get Unviewed EvidenceCount By Unit
+     * @param unknown $applicantId
+     * @param unknown $ccode
+     * @return multitype:number
+     */
+    public function getUnviewedEvidenceCountByUnit($applicantId, $ucode) {
+
+        $query = $this->em->getRepository('GqAusUserBundle:Evidence')
+                ->createQueryBuilder('e')
+                //->select('e')
+                ->where(sprintf('e.%s = :%s', 'user', 'user'))->setParameter('user', $applicantId)
+                ->andWhere(sprintf('e.%s = :%s', 'unit', 'unit'))->setParameter('unit', $ucode)
+                ->andWhere("e.facilitatorViewStatus='0'");
+        $total = $query->select('COUNT(e)')
+               ->getQuery()
+               ->getSingleScalarResult();
+//        $unviewedEvidence = $query->getQuery()->getResult();
+//        foreach ($unviewedEvidence as $evidence) {
+//            
+//        }
+
+        return $total;
+    }
 
 }

@@ -249,6 +249,7 @@ class CoursesController extends Controller {
                 $unit['status'] = $units->getStatus();
                 $unit['electiveStatus'] = $units->getElectiveStatus();
                 $unit['isSubmitted'] = $units->getIssubmitted();
+                $unit['unViewed'] =   $this->get('CoursesService')->getUnviewedEvidenceCountByUnit($unit['userId'],$units->getUnitId());
                 $unit['statusText'] = $userService->getStausByStatus($unit['status'], $unit['userId'], $unit['unitId'], $unit['courseCode'], $units->getUser()->getRoles()[0]);
                 $courseUnits[trim($units->getUnitId())] = $unit;
             }

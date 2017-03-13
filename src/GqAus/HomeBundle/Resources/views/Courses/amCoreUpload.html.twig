@@ -49,6 +49,7 @@
                             <div class="btn-group">
                                 <button type="button" class="btn">
                                    <span class="unit-name">{[{core.id}]} - {[{core.name}]}</span>
+                                   <span class="unit-viewed label-danger" ng-if = "core.unViewed>0" ng-bind="core.unViewed"></span>
                                    <span class="unit-status"><label for="{[{core.name}]}" ng-if="getStatusText(core.id)" class="label" ng-class="getStatusClass(getStatusText(core.id))">{[{ getStatusText(core.id) || 'Evidence Needed'}]}</label></span>
                                 </button>
                             </div>
