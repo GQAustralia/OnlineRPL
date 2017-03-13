@@ -5218,6 +5218,7 @@ class UserService {
     public function updateUploadEnroll($userId, $params) {
         $fileInfo = $params['file'];
         $fileName = $params['name'];
+        $path = $params['path'];
         $type = $params['type'];
         $size = $fileInfo['size'];
         $mimeType = $fileInfo['type'];
@@ -5229,7 +5230,7 @@ class UserService {
             $documentID = $documentType->findOneById($type['id']);
             $userFiles->setType($documentID);
             $userFiles->setName($fileInfo['name']);
-            $userFiles->setPath($fileName);
+            $userFiles->setPath($path);
             $userFiles->setSize($size);
             $this->em->persist($userFiles);
             $this->em->flush();

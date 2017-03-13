@@ -348,6 +348,7 @@ gqAus.controller('enrollmentCtlr', function ($rootScope, $scope, $window, _, Aja
     };
     $scope.uploadcomplete = function (data, obj) {
         var uploadIndex = $scope.uploadRelation[obj.fileNum];
+        $scope.enrollment.upload.uploadId[uploadIndex].path = data.fileName;
         AjaxService.apiCall("saveUpload", $scope.enrollment.upload.uploadId[uploadIndex]).then(function (data) {
             if(data.uploadId !=='') {
                $scope.enrollment.upload.uploadId[uploadIndex].id = data.uploadId;
