@@ -1,7 +1,7 @@
 # constants for email message contents
 parameters:
-    default_from_username: "Online RPL"
-    mail_account_creation_sub: "Get Qualified Australia: Welcome to Online RPL" 
+    default_from_username: "Get Qualified AustraliaL"
+    mail_account_creation_sub: "Welcome to GQA's Online RPL Platform"
     mail_account_creation_con: >
                                  Dear #firstName#,<br/><br/> 
                                  Thanks for enrolling with Get Qualified Australia and welcome to Online RPL! We're looking forward to helping you achieve your #courseName#. <br /><br />

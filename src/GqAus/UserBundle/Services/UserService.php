@@ -2794,17 +2794,15 @@ class UserService {
             }
 
 
-       
-				        $mailSubject = "Welcome - Online RPL";
-        				$mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
-        				$this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
-       					// $this->emailService->sendNotificationEmailToSupervisors($user->getId());
-       					
-        				$mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
-        				$supervisorObj = $this->getUserInfo($request->get('managerId'));
-        				$mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
-                        $mailSubject = "Online RPL - A new Qualification Portfolio has been created";
-        				$this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+                $mailBody = $this->emailService->getWelcomeEmailToApplicantEmailMsg($user->getId(), $courseData['courseName']);
+                $this->sendExternalEmail($data['email'], $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
+                // $this->emailService->sendNotificationEmailToSupervisors($user->getId());
+
+                $mailSubject = str_replace($subSearch, $subReplace, $this->container->getParameter('mail_add_course_sub'));
+                $supervisorObj = $this->getUserInfo($request->get('managerId'));
+                $mailBody = $this->emailService->getNotificationEmailToSupervisorsEmailMsg($request->get('managerId'), $user->getUserName(), $courseData['courseName']);
+                $mailSubject = "Online RPL - A new Qualification Portfolio has been created";
+                $this->sendExternalEmail($supervisorObj->getEmail(), $mailSubject, $mailBody, $this->container->getParameter('fromEmailAddress'), $this->container->getParameter('default_from_username'));
          }
          /*$subSearch = array('#courseCode#', '#courseName#');
          $subReplace = array($courseData['courseCode'], $courseData['courseName']);

@@ -68,7 +68,8 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
     $scope.selfAssessment = {};
     $scope.notes = [];
     $scope.operatingSys = '';
-
+    $scope.qualStatusTxt = '';
+    $scope.qualStatusClass = '';
     $scope.addRemoveUnit = function(unit) {
 
         var obj = _.where($scope.selectedElectiveUnits, unit);
@@ -496,6 +497,9 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         $('#submitUnitConfirmation').modal('hide');
         AjaxService.apiCall("submitUnitForReview", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function(data) {
             if (data.success) {
+                console.log(data.courseStatus);
+                $scope.qualStatusTxt = data.courseStatus.ApplicantDisplayText;
+                $scope.qualStatusClass = data.courseStatus.labelClass;
                 $scope.getUserUnits();
                 $window.alert(data.success);
             }

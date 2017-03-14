@@ -537,11 +537,18 @@ class EvidenceService
         
         //to update - when candidate submit the unit review status 
         if($submit_review!=null){
-          $courseUnitObj->setIssubmitted(1);
-          $courseUnitObj->setUnitStatus(2);
-          $courseUnitObj->setStatus(1);
-          $this->em->persist($courseUnitObj);
-          $this->em->flush();  
+            $courseUnitObj->setIssubmitted(1);
+            $courseUnitObj->setUnitStatus(2);
+            $courseUnitObj->setStatus(1);
+            $this->em->persist($courseUnitObj);
+            $this->em->flush();
+
+            $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $courseUnitObj->getCourseCode(), 'user' => $userId));
+            $courseObj->setCourseStatus(5);
+            $this->em->persist($courseObj);
+            $this->em->flush();
+
         }
         else if ($courseUnitObj->getFacilitatorstatus() == 2 or $courseUnitObj->getAssessorstatus() == 2) {
             if($evd)
@@ -864,7 +871,10 @@ class EvidenceService
             $this->updateCourseUnits($this->userId, $data['unitCode'], $data['courseCode'], '1');
             $logType = $this->userService->getlogType('10');
             $this->userService->createUserLog('10', $logType['message']);
-            return array('success'=>'Updated Succesfully');
+
+            $courseStatus = $this->getCourseStatus($this->userId, $data['courseCode']);
+
+            return array('success'=>'Updated Succesfully', 'courseStatus' => $courseStatus);
         } else {
             $logType = $this->userService->getlogType('11');
             $this->userService->createUserLog('11', $logType['message']);
@@ -872,6 +882,19 @@ class EvidenceService
         }
     }
     
+    /**
+    * function to get the course status
+    *
+    *
+    */
+    private function getCourseStatus($userId, $courseCode){
+        $courseObj = $this->em->getRepository('GqAusUserBundle:UserCourses')
+                    ->findOneBy(array('courseCode' => $courseCode, 'user' => $userId));
+
+        $courseStatusArr = $this->userService->getQualificationStatus();
+
+        return $courseStatusArr[$courseObj->getCourseStatus()];
+    }
     /**
      * 
      * @param type $userId
