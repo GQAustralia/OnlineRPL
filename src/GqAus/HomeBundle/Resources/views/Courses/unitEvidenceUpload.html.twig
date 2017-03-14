@@ -53,24 +53,26 @@
 							{% endif %}
 
                             <div class="panel-collapse-inner" ng-if="(unitEvidences| filter:{type: '!text'}).length > 0 || uploadInProgress.uploads.length > 0" data-has-thumbnail="true">
-                                <div class="evidence-controls">
-                                    <div class="checkbox-control" ng-if="!isSubmitted()">
-                                        <input type="checkbox" name="test" value="1"  ng-model="pageStats.evidenceEdit" id="selectControl" class="custom-input"><label for="selectControl"><span class="hidden-mobile">Edit</span></label>
-                                    </div>
-
-                                    <div class="btn-group btn-group-xs" data-toggle="buttons">
-                                        <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.evidenceView = 'card'">
-                                            <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
-                                        </label>
-                                        <label class="btn btn-transparent" for="listView" ng-click="pageStats.evidenceView = 'list'">
-                                            <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                <div class="evidence-controls btn-group-toolbar">
+                                    <div class="btn-group btn-group-xs pull-left" data-toggle="buttons">
+                                        <label class="btn btn-transparent" for="selectControl" ng-click="customCheck()">
+                                             <input type="checkbox" name="test" value="1" ng-checked="pageStats.evidenceEdit == true" ng-model="pageStats.evidenceEdit" id="selectControl"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-select-all"></i>
                                         </label>
                                     </div>
-
-                                    <div class="btn-group btn-group-xs" ng-if="!isSubmitted() && pageStats.evidenceEdit">
+                                    <div class="btn-group btn-group-xs pull-left" ng-if="!isSubmitted() && pageStats.evidenceEdit">
                                         <button type="button" class="btn btn-transparent" ng-click="deleteEvidence()" ><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-delete"></i></button>
                                     </div>
-
+                                    <div class="evidence-toggle-view pull-left">
+                                        <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                            <label class="btn btn-transparent" for="gridView" ng-click="pageStats.evidenceView = 'card'">
+                                                <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.evidenceView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                            </label>
+                                            <label class="btn btn-transparent active" for="listView" ng-click="pageStats.evidenceView = 'list'">
+                                                <input type="radio" name="galleryView" id="listView" ng-model="pageStats.evidenceView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <i class="divider"></i>
                                     <button type="button" class="btn btn-primary btn-sm" ng-if="!isSubmitted()" data-toggle="modal" data-target="#uploadEvidence" data-keyboard="false" data-backdrop="static"> <i class="zmdi zmdi-upload zmdi-hc-lg zmdi-hc-fw"></i> Upload Evidence</button>
                                 </div>
 
@@ -85,55 +87,56 @@
                                                 <!-- <i class="percentage-fill" data-progress-value="0%" style="height: 0%;"></i> -->
                                             </div>
                                         </div>
-                                        
                                         <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''">
                                             <input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input">
                                             <label for="evidenceFiles-{[{evidence.id}]}"></label>
                                         </div>
-
-                                        <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
+                                        <div class="thumbnail-group-selection locked" ng-if="evidence.jobId != ''">
+                                           <i class="zmdi zmdi-hc-2x zmdi-lock"></i>
+                                        </div>
+                                        <div class="thumbnail-holder" data-has-linked-to="false">
                                             <!-- IF IMAGE -->
-                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" ng-click="showEvidenceModal(evidence)" 
-                                                        data-toggle="modal" 
-                                                        data-keyboard="false" 
-                                                        data-backdrop="static" title="{[{evidence.name}]}">
-                                            </div>
-                                            <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
-                                                <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">
-                                                    <span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}
-                                                    </span>
-                                                    <span>{[{evidence.date}]}</span>
-                                                </a>
-                                               <!--  <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a> -->
-                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
-                                                <!-- <span data-column-name="uploaded"></span> -->
-                                                <div data-column-name="linkedto">
-                                                    <strong class="text-primary">SITXas3456345645</strong> and <strong class="text-primary">2 other</strong> units 
-                                                </div>
-                                            </div>
-                                            <!-- END OF IMAGE -->
+                                                <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" title="{[{evidence.name}]}" data-toggle="modal"  data-keyboard="false"></div>
 
-                                            <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
-                                                <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
-                                                
-                                            </div>
-
-                                            <div class="thumbnail-body" ng-if="evidence.type != 'image'">       
-                                                <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span>{[{evidence.date}]}</span></a>
-                                               
-                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
-                                                <!-- <span data-column-name="uploaded">02/12/17</span> -->
-                                                <div data-column-name="linkedto">
-                                                <strong class="text-primary">{[{evidence.unitCode}]}</strong> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units 
+                                                <div class="thumbnail-body" ng-if="evidence.type == 'image'">      
+                                                    <a data-column-name="filename" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">
+                                                        <span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}
+                                                        </span>
+                                                        <span class="data-uploaded">{[{evidence.created}]}</span>
+                                                    </a>    
+                                                    <!-- <span data-column-name="uploaded"></span> -->
+                                                    <span data-column-name="filesize">{[{evidence.size}]}</span>  
+                                                    <!-- <div data-column-name="linkedto">
+                                                        <strong class="text-primary">{[{evidence.unitCode}]}</strong>&nbsp;<span ng-if="evidence.linkedTo > 0">and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units</span> 
+                                                    </div>  --> 
+                                                    <!-- <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a> -->
                                                 </div>
-                                                <!-- <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                                <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->
-                                            </div>
+                                            <!-- END IF IMAGE -->
+                                            <!-- IF NOT IMAGE -->
+                                                <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                    <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                                    
+                                                </div>
+                                                <div class="thumbnail-body" ng-if="evidence.type != 'image'">                                
+                                                    <!-- <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
+                                                    <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                    <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->
+                                                    <a  data-column-name="filename" target="_blank" href="{[{evidence.s3Path}]}"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span class="date-uploaded">{[{evidence.created}]}</span></a>
+                                                    <span data-column-name="filesize">{[{evidence.size}]}</span>
+                                                    <!-- <span data-column-name="uploaded">{[{evidence.created}]}</span> -->
+                                                    <!-- <div data-column-name="linkedto"><strong class="text-primary">{[{evidence.unitCode}]}</strong><span ng-if="evidence.linkedTo > 0"> and <strong class="text-primary">{[{evidence.linkedTo}]} other</strong> units </span></div> -->
+                                                </div>
+                                            <!-- END IF NOT IMAGE -->
                                         </div>
 
-                                        <div class="dropdown dropdown-thumbnail" ng-if="evidence.jobId == ''">
-                                            <button type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="dropdown"><i class="zmdi zmdi-more zmdi-hc-lg"></i></button>
-                                            <ul class="dropdown-menu pull-right">
+                                        <div class="dropdown dropdown-thumbnail"> 
+                                            <!-- <button ng-click="deleteEvidence()" type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" data-toggle="tooltip" title="Delete" data-placement="left" ng-if="evidence.jobId != ''">
+                                                <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+                                            </button> -->
+                                            <button type="button" class="btn btn-transparent btn-xs btn-context-menu dropdown-toggle" ng-if="evidence.jobId == ''" data-toggle="dropdown">
+                                                <i class="zmdi zmdi-more zmdi-hc-lg"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right" ng-if="evidence.jobId == ''">
                                                 <li ng-if="evidence.type == 'image'">
                                                     <a  data-trigger="preview-file" ng-click="showEvidenceModal(evidence)" href data-keyboard="false" data-backdrop="static">
                                                         <i class="zmdi zmdi-hc-lg zmdi-eye zmdi-hc-fw"></i> View file
@@ -153,7 +156,6 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        
                                         <!-- <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-if="!isSubmitted() && evidence.jobId == ''" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button> -->
                                     </li>
                                     <!-- end of the real thing -->
@@ -168,52 +170,7 @@
                                         </div>
                                     </li>
                                     <!-- Upload in progress -->
-                                    
                                 </ul>
-
-                                <!-- <ul class="thumbnail-group" ng-class="{'card-view': pageStats.evidenceView === 'card', 'list-view': pageStats.evidenceView === 'list', 'edit-mode' : pageStats.evidenceEdit}">
-                                    
-                                    <li class="thumbnail-group-item" ng-repeat="evidence in unitEvidences| filter:{type: '!text'}" ng-class="{'thumbnail-group-item-loading':evidence.jobId != ''}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
-                                        <div class="thumbnail-holder" style="min-height: 60px;" ng-if="evidence.jobId != ''">
-                                            <div class="thumbnail-header"></div>
-                                            <div class="thumbnail-progress-fill text-center" data-progress-value="">
-                                                <i class="zmdi zmdi-settings zmdi-hc-2x zmdi-hc-spin btn-block"></i>
-                                                <small class="text-uppercase btn-block" style="font-size: 9px; width: 100%;line-height: 1;">please wait</small>
-                                              
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="thumbnail-group-selection" ng-if="evidence.jobId == ''"><input type="checkbox" id="evidenceFiles-{[{evidence.id}]}" name="evidenceFiles" ng-model="pageStats.evidenceFiles[evidence.id]" class="custom-input"><label for="evidenceFiles-{[{evidence.id}]}"></label></div>
-                                        <div class="thumbnail-holder" ng-if="evidence.jobId == ''">
-                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
-                                            </div>
-                                            <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
-                                                    <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-                                                    <a class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                                </div>
-                                            <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
-                                                <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
-                                                <div class="thumbnail-body">                                
-                                                    <span data-column-name="filename" data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span>
-                                                    <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
-                                                    <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <button type="button" class="btn btn-transparent btn-xs btn-delete" ng-if="!isSubmitted() && evidence.jobId == ''" ng-click="deleteEvidence(evidence)"><i class="zmdi zmdi-close zmdi-hc-lg"></i></button>
-                                    </li>
-
-                                    <li class="thumbnail-group-item thumbnail-group-item-loading" ng-repeat="uploadEvidence in uploadInProgress.uploads">
-                                        <div class="thumbnail-holder">
-                                            <div class="thumbnail-header"></div>
-                                            <div class="thumbnail-progress-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%">
-                                                <i class="percentage-fill" data-progress-value="{[{uploadEvidence.percentageCompleted}]}%" style="height: {[{uploadEvidence.percentageCompleted}]}%;"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul> -->
                             </div>
                         </div>
                     </article>

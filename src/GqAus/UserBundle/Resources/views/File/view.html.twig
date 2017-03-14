@@ -143,7 +143,6 @@
                                         </div>
 
                                         <div class="thumbnail-holder">
-
                                             <!-- IF IMAGE -->
                                                 <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" title="{[{evidence.name}]}" data-toggle="modal"  data-keyboard="false"></div>
 
@@ -257,7 +256,7 @@
                 <div class="modal-body clearfix" >
                      <gq-audio ng-if="evidenceView.type ==='audio'" datapath="{[{evidenceView.s3Path}]}"></gq-audio>
                     <gq-video ng-if="evidenceView.type ==='video'" datapath="{[{evidenceView.s3Path}]}" datatype="{[{evidenceview.mimeType}]}" ></gq-video>
-                    <img ng-if="evidenceView.type === 'image'" src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
+                    <img ng-if="evidenceView.type === 'image'" ng-src="{[{evidenceView.s3Path}]}" alt="{[{evidenceView.name}]}" class="img img-responsive">
                 </div>
                 <div class="modal-footer">
                     <strong class="center-block text-left">{[{evidenceView.name}]}</strong>

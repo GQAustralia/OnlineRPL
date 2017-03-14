@@ -67,6 +67,7 @@ $evidence-library-width-sm: $evidence-library-width - 50;
 
 	& + .thumbnail-group {
 		margin-top: 15px;
+		display: block;
 	}
 }
 

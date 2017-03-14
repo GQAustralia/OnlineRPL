@@ -412,15 +412,15 @@
                             <div role="tabpanel" class="tab-pane" id="browseEvidenceLibrary">
                                 <div class="evidence-controls">
                                     <div class="btn-group btn-group-xs" data-toggle="buttons">
-                                        <label class="btn btn-transparent active" for="gridView" ng-click="pageStats.libraryView = 'card'">
-                                            <input type="radio" name="galleryView" id="gridView" value="grid-view" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
+                                        <label class="btn btn-transparent" for="gridView" ng-click="pageStats.libraryView = 'card'">
+                                            <input type="radio" name="galleryView" id="gridView" ng-model="pageStats.libraryView" value="card" checked><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-module"></i>
                                         </label>
-                                        <label class="btn btn-transparent" for="listView" ng-click="pageStats.libraryView = 'card'">
-                                            <input type="radio" name="galleryView" id="listView" value="list-view"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
+                                        <label class="btn btn-transparent active" for="listView" ng-click="pageStats.libraryView = 'list'">
+                                            <input type="radio" name="galleryView" id="listView" ng-model="pageStats.libraryView" value="list"><i class="zmdi zmdi-hc-2x zmdi-hc-fw zmdi-view-list"></i>
                                         </label>
                                     </div>
                                 </div>
-                                <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
+                                <!-- <ul class="thumbnail-group card-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
                                     <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences|filter:{size:'!0'}" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
                                         <div class="thumbnail-group-selection"><input type="checkbox" name="libraryFiles" value="{[{evidence.id}]}" id="libraryFiles-{[{evidence.id}]}" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input"><label for="libraryFiles-{[{evidence.id}]}"></label></div>
                                         <div class="thumbnail-holder">
@@ -437,6 +437,41 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                    </li>
+                                </ul> -->
+                                <ul class="thumbnail-group list-view thumbnail-group-scroll edit-mode" ng-class="{'card-view': pageStats.libraryView === 'card', 'list-view': pageStats.libraryView === 'list'}">
+                                    <li class="thumbnail-group-item" ng-repeat="evidence in allEvidences" data-file-type="{[{evidence.type}]}" data-has-icon="{[{evidence.type == 'image'?'false':'true'}]}">
+                                         <div class="thumbnail-group-selection">
+                                            <input type="checkbox" id="libraryFiles-{[{evidence.id}]}" name="libraryFiles" ng-model="uploadInProgress.libraryFiles[evidence.id]" class="custom-input">
+                                            <label for="libraryFiles-{[{evidence.id}]}"></label>
+                                        </div>
+
+                                        <div class="thumbnail-holder" data-has-linked-to="false">
+                                            <div class="thumbnail-header" ng-if="evidence.type == 'image'" ng-style="{'background-image':'url(\'{[{evidence.s3Path | encodeURI}]}\')'}" title="Evidence Name Here"></div>
+
+                                            <div class="thumbnail-header" title="{[{evidence.name}]}" ng-if="evidence.type != 'image'">
+                                                <i class="zmdi thumbnail-icon" ng-class="{'zmdi-file-text': evidence.type == 'file' && evidence.fileType != 'pdf', 'zmdi-collection-pdf': evidence.type == 'file' && evidence.fileType == 'pdf' , 'zmdi-headset': evidence.type == 'audio', 'zmdi-headset': evidence.type == 'recording', 'zmdi-collection-video': evidence.type == 'video'}"></i>
+                                            </div>
+
+                                            <!-- <div class="thumbnail-header" ng-if="evidence.type == 'image'" style="background-image: url('{[{evidence.s3Path}]}')" title="Evidence Name Here">
+                                            </div> -->
+                                            
+                                            <div class="thumbnail-body" ng-if="evidence.type == 'image'">                                
+                                                <a data-column-name="filename">
+                                                    <span data-filename="{[{evidence.s3Path}]}">Image - {[{evidence.name}]}
+                                                    </span>
+                                                    <span class="date-uploaded">{[{evidence.created}]}</span>
+                                                </a>
+                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
+                                            </div>
+                                            <div class="thumbnail-body" ng-if="evidence.type != 'image'">                                
+                                                <a  data-column-name="filename"><span data-filename="{[{evidence.s3Path}]}">{[{evidence.name}]}</span><span class="date-uploaded">{[{evidence.created}]}</span></a>
+                                                <span data-column-name="filesize">{[{evidence.size}]}</span>
+                                                <!-- <span data-column-name="uploaded">02/12/17</span> -->
+                                                <!-- <a ng-if="evidence.type != 'file'" class="btn" data-trigger="preview-file" ng-click="showEvidenceModal(evidence)">Preview</a>
+                                                <a ng-if="evidence.type == 'file'" target= "_blank" class="btn" href="{[{evidence.s3Path}]}">Preview</a> -->
+                                            </div>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

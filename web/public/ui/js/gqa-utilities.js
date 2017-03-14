@@ -225,10 +225,10 @@ var FILE_THUMBNAIL = {
 	doc: $(document),
 	evidence_controls: '.evidence-controls [for], .panel-evidence-filters',
 	bind: function(){
-		// this.doc.on('click', this.evidence_controls, function(){
-		// 	FILE_THUMBNAIL.compute();
-		// 	FILE_THUMBNAIL.stack_list_view();
-		// })
+		this.doc.on('click', this.evidence_controls, function(){
+			FILE_THUMBNAIL.compute();
+			FILE_THUMBNAIL.stack_list_view();
+		})
 	},
 	detect_list_view: function(){
 		var group = $('.thumbnail-group');
@@ -236,9 +236,12 @@ var FILE_THUMBNAIL = {
 		else { return false; }
 	},
 	stack_list_view: function(){
-		var lv = $('.list-view');
+		var lv = $('.list-view'),
+			group = $('.thumbnail-group');
 		if (FILE_THUMBNAIL.detect_list_view()) {
-			if($('[data-has-thumbnail="true"]').width() <= 568){lv.addClass('stacked');}
+			if(isMobile.any){lv.addClass('stacked')}
+			else if(group.width() == 0){lv.removeClass('stacked')}
+			else if(group.width() <= 480){lv.addClass('stacked');}
 			else{lv.removeClass('stacked')}
 		}
 	},
@@ -246,48 +249,43 @@ var FILE_THUMBNAIL = {
 		var p = $('[data-has-thumbnail="true"]'),
 			w = p.width(),
 			group = $('.thumbnail-group'),
-			thumbnail = $('.thumbnail-group-item'),
+			thumbnail = '.thumbnail-group-item',
 			header = $('.thumbnail-header'),
-			
 			xs = 480,
 			sm = 600,
 			md = 768,
 			lg = 1024,
 			xlg = 1140;
 
-		if (FILE_THUMBNAIL.detect_list_view() == true) {
-			header.css('height','');
-			thumbnail.css('width','');
-
-			return false;
-		}
-		else {
-			if(isMobile.phone){
-				division(2)
-			}else if(isMobile.tablet){
-				division(3)
-			}else{
-				if(w <= xs){ division(4); }
-				else if(w <= md){ division(4); }
-				else if(w <= lg){ division(6); }
-				else if(w <= xlg){ division(7); }
-				else { division(8); }
-			}				
+		if(isMobile.phone){
+			division(2)
+		}else if(isMobile.tablet){
+			division(3)
+		}else{
+			if(w <= xs){ division(4); }
+			else if(w <= md){ division(4); }
+			else if(w <= lg){ division(6); }
+			else if(w <= xlg){ division(7); }
+			else { division(8); }
 		}
 
 		function division(value){
 			var tw = 100 / value + '%';
-			thumbnail.css('width', tw);
-			header.css('height', thumbnail.width());
+			p.find(thumbnail).css('width', tw);
+			//header.css('height', p.find(thumbnail).width());
 		}
+		
 	},
 	computation_interval: function(){
 		thumbnail_interval = setInterval(function(){
 			setTimeout(function(){
 				if($('.thumbnail-group').size()){
 					FILE_THUMBNAIL.compute();
+					FILE_THUMBNAIL.stack_list_view();
+					
 					clearInterval(thumbnail_interval)
 				}else{
+					FILE_THUMBNAIL.compute();
 					clearInterval(thumbnail_interval)
 				}
 			}, 1000)
@@ -305,7 +303,6 @@ var FILE_THUMBNAIL = {
 		});
 	},
 	build: function(){
-		// FILE_THUMBNAIL.file_name_width();
 		FILE_THUMBNAIL.resize();
 		FILE_THUMBNAIL.compute();
 		FILE_THUMBNAIL.stack_list_view();

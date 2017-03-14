@@ -6,6 +6,17 @@ $thumbnail-group-item-border-right-color: #e6e6e6;
 $thumbnail-group-item-card-width: 200px;
 
 // =============== Main ==============
+.modal .thumbnail-group{
+	.thumbnail-group-item{
+		width: 25% !important;
+	}
+
+	@media screen and (max-width: $screen-xs-min){
+		.thumbnail-group-item{
+			width: 50% !important;
+		}
+	}
+}
 .thumbnail-group {
 	display: block;
 	position: relative;
@@ -25,6 +36,7 @@ $thumbnail-group-item-card-width: 200px;
     	.thumbnail-group-item {
 			width: 200px; // ie
 			padding: 5px;
+			float: left;
 
 			@media(min-width: $screen-xs-min){
 				padding: $grid-gutter-width / 8;
@@ -48,7 +60,7 @@ $thumbnail-group-item-card-width: 200px;
 				position: relative; 
 				@include background-size(cover);
 				width: 100%; // ie
-				min-height: 160px;
+				min-height: 140px;
 			}
 
 			.thumbnail-body {
@@ -224,7 +236,7 @@ $thumbnail-group-item-card-width: 200px;
 			
 			@media screen and (min-width: 568px){
 				padding-left: 0;
-				display: table;
+				// display: table;
 				[data-column-name] { display: block; position: relative;}
 
 				@media screen and (min-width: 568px){
@@ -338,6 +350,8 @@ $thumbnail-group-item-card-width: 200px;
         position: absolute;
         left: -10px;
         top: -7px;
+
+
 	}
 
 	.thumbnail-group-selection {
@@ -381,7 +395,7 @@ $thumbnail-group-item-card-width: 200px;
 				[data-column-name="linkedto"],
 				[data-column-name="uploaded"],
 				[data-column-name="filesize"]{
-					width: 100%;
+					width: 100% !important;
 					text-align: left;
 				}
 
@@ -390,19 +404,20 @@ $thumbnail-group-item-card-width: 200px;
 				[data-column-name="filename"]:before { content: 'Filename'; }
 				[data-column-name="linkedto"]:before { content: 'Linked to'; }
 			}
+			.thumbnail-holder{
+				@include calc-sub-two-values(width, 100%, 50px);
+			}
 		}
 	}
 	.thumbnail-group-item:not(.thumbnail-group-item-loading) {
 		@include transition(padding .3s $easing);
 		border-bottom: 1px solid $gray-lighter;
 
-
 		@media screen and (min-width: 568px){
 			padding: 5px;
-			width: 100% !important; 
 		}
 
-		.thumbnail-holder{
+		.thumbnail-holder {
 			@include calc-sub-two-values(width, 100%, 50px);
 			display: inline-block;
 			vertical-align: middle;
@@ -428,11 +443,19 @@ $thumbnail-group-item-card-width: 200px;
 			}
 		}
 
+		.thumbnail-holder[data-has-linked-to="false"]{
+			.thumbnail-body{
+				[data-column-name="filename"]{
+					@include calc-sub-two-values(width, 100%, 100px);
+				}
+			}
+		}
+
 		.thumbnail-body {
 			@include calc-sub-two-values(width, 100%, $thumb-dim);
 			[data-column-name] {vertical-align: top;}
 			@media screen and (min-width: 568px){
-				[data-column-name] { padding: 8px 15px; margin: 0; height: $thumb-dim; }
+				[data-column-name] { padding: 8px 15px; margin: 0 -4px 0 0; height: $thumb-dim; }
 			}
 			$file-dim: 100px;
 			$date-dim: 160px;
@@ -440,6 +463,7 @@ $thumbnail-group-item-card-width: 200px;
 			[data-column-name="filename"] { 
 				display: inline-block;
 				width: 50%;
+				margin-right: -4px;
 				// @media screen and (min-width: $screen-phone){
 				// 	width: 50%;
 				// }
@@ -558,6 +582,14 @@ $thumbnail-group-item-card-width: 200px;
 			width: 100%;
 		}
 	}
+
+	.thumbnail-holder[data-has-linked-to="false"]{
+		.thumbnail-body{
+			[data-column-name="filesize"]:before{
+				@include calc-add-two-values(width, 100%, 50px);
+			} 
+		}
+	}
 	// List view edit-mode
 	&.edit-mode {
 		.thumbnail-group-selection {
@@ -568,6 +600,18 @@ $thumbnail-group-item-card-width: 200px;
 		@media screen and (min-width: 568px){
 			.thumbnail-group-selection {
 				padding: 0;
+			}
+		}
+
+		.thumbnail-holder[data-has-linked-to="false"]{
+			.thumbnail-body{
+				[data-column-name="filename"]{
+					@include calc-sub-two-values(width, 100%, 200px);
+				}
+
+				[data-column-name="filesize"]:before{
+					@include calc-add-two-values(width, 100%, 50px);
+				} 
 			}
 		}
 
@@ -759,4 +803,5 @@ $thumbnail-group-item-card-width: 200px;
 
 .thumbnail-group-scroll {
 	overflow-y: auto;
+	max-height: 200px;
 }

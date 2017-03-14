@@ -279,7 +279,6 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         }).finally(function(){
             FILE_THUMBNAIL.computation_interval();
         })
-        console.log('282')
     };
 
     // Upload Evidence Functions 
@@ -428,6 +427,10 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         $scope.selectedElectiveUnits = _.difference($scope.selectedElectiveUnits, deSelectArr);
 
         UNITS.animate_zerostate();
+    };
+
+    $scope.customCheck = function() {
+        $scope.pageStats.evidenceEdit === false ? $scope.pageStats.evidenceEdit = true : $scope.pageStats.evidenceEdit = false;
     };
 
     $scope.percentElectiveSubmitted = function() {
