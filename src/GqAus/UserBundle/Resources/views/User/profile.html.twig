@@ -158,7 +158,8 @@
                                 {% for item in userIdFiles %}
                                     {% if item.status != 1 %}
                                         {% set fileSts = 1 %}
-                                        <a data-toggle="modal" data-target="#fileViewer{{item.id}}" href = "{{ amazon_link~'user-'~userId~'/'~item.path }}"><span>{{item.type.type}}</span></a>
+                                        <!-- <a data-toggle="modal" data-target="#fileViewer{{item.id}}" href = "{{ amazon_link~'user-'~userId~'/'~item.path }}"><span>{{item.type.type}}</span></a> -->
+                                        <a target="_blank" href = "{{ amazon_link~'user-'~userId~'/'~item.path }}"><span>{{item.type.type}}</span></a>
                                     {% endif %}
                                 {% endfor %}
                                 {% if fileSts == 0 or userIdFiles is not defined %}<span>{{no_id_files}}</span>{% endif %}                        
