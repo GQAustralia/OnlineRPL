@@ -233,17 +233,31 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         $('#elementsPerformanceCriteria').modal('show');
     };
 
+    $scope.selectUnitName = function() {
+         var $obj;
+        if ($scope.qualificationPage === 'elective')
+            $obj = _.where($scope.allElectiveUnits, {"id": $scope.selectedUnit});
+        else
+            $obj = _.where($scope.allCoreUnits, {"id": $scope.selectedUnit});
+        if (!_.isEmpty($obj)) {
+            return $obj[0].name;
+        }
+        return '';
+    }
     $scope.downloadElective = function(details) {
-        return $window.xepOnline.Formatter.Format('detailsElective', {render: 'download', filename: details.title,
+        document.getElementById('detailsElective').innerHTML = '<div id="innerUnitName">'+$scope.selectedUnit+' '+ $scope.selectUnitName() +' </div>' + document.getElementById('detailsElective').innerHTML;
+        $window.xepOnline.Formatter.Format('detailsElective', {render: 'download', filename: details.title,
             cssStyle: [{fontSize: '12px'}]});
+        document.getElementById('detailsElective').removeChild(document.getElementById('innerUnitName'));
         //$window.location.href = '/units/downloadSelectedElectiveUnits/'+ $scope.selectedElective + '/' + details.detailsType;
     };
 
     $scope.printElective = function() {
         var printContents = document.getElementById('detailsElective').innerHTML;
         var popupWin = window.open('', '_blank', 'width=500,height=500');
+        var dv = '<div id="innerUnitName">'+$scope.selectedUnit+' '+ $scope.selectUnitName() +' </div>';
         popupWin.document.open();
-        popupWin.document.write('<html><head></head><body>' + printContents + '</body></html>');
+        popupWin.document.write('<html><head></head><body>'+ dv + printContents + '</body></html>');
         popupWin.document.close(); // necessary for IE >= 10
         popupWin.focus(); // necessary for IE >= 10*/
 
@@ -497,6 +511,7 @@ gqAus.controller('qualificationCtlr', function($rootScope, $scope, $window, _, A
         $('#submitUnitConfirmation').modal('hide');
         AjaxService.apiCall("submitUnitForReview", {"unitCode": $scope.selectedUnit, "courseCode": $scope.courseCode}).then(function(data) {
             if (data.success) {
+                $scope.closeSelected();
                 console.log(data.courseStatus);
                 $scope.qualStatusTxt = data.courseStatus.ApplicantDisplayText;
                 $scope.qualStatusClass = data.courseStatus.labelClass;
